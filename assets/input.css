@@ -1,0 +1,56 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+/* Bestehendes Flowbite Theme */
+@theme {
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+}
+
+/* Dein individuelles Farbschema */
+@layer theme {
+  :root {
+    --color-base: #d6d6cc;
+    --color-card: #edeee9;
+    --color-text: #060f13;
+    --color-primary: #cb9150;
+  }
+
+  .dark {
+    --color-base: #060f14;
+    --color-card: #0d1e26;
+    --color-text: #f4f1d0;
+    --color-primary: #0e558c;
+  }
+
+  /* Optional globale Standardwerte */
+  body {
+    background-color: var(--color-base);
+    color: var(--color-text);
+  }
+
+  header, section, article, details {
+    background-color: var(--color-card);
+  }
+
+  a, .text-brand-600, .text-primary {
+    color: var(--color-primary);
+  }
+
+  .bg-brand-600, .bg-primary {
+    background-color: var(--color-primary);
+  }
+}
+
+@layer utilities {
+  .text-text { color: var(--color-text); }
+  .bg-base { background-color: var(--color-base); }
+  .bg-card { background-color: var(--color-card); }
+  .text-primary { color: var(--color-primary); }
+  .bg-primary { background-color: var(--color-primary); }
+}
