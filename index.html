@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ultra schneller One-Pager mit Live-API-Status, ohne Framework." />
+  <title>DasNerdwork.net | Ultra-Fast One-Pager</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/dark-32.png">
+  <link rel="stylesheet" href="./assets/output.css" />
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+  <link rel="dns-prefetch" href="https://dasnerdwork.net">
+  <link rel="preconnect" href="https://dasnerdwork.net" crossorigin>
+  <link rel="dns-prefetch" href="https://clashscout.com">
+  <link rel="preconnect" href="https://clashscout.com" crossorigin>
+  <!-- System fonts für 0ms Font-Blocking -->
+  <style>
+    :root { color-scheme: light dark; }
+    html { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+  </style>
+</head>
+<body class="bg-base text-text dark:bg-base dark:text-text antialiased">
+  <header class="sticky top-0 z-10 bg-[var(--color-card)] border-b border-gray-200/70 dark:border-gray-700/70">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img id="header-favicon" class="h-6 w-6 rounded" src="assets/img/favicon/dark-32.png" alt="Favicon">
+        <span class="font-semibold tracking-tight">DasNerdwork.net</span>
+      </div>
+      <nav class="hidden sm:flex items-center gap-6 text-sm">
+        <a href="#status" class="hover:underline">Status</a>
+        <a href="#apis" class="hover:underline">APIs</a>
+        <a href="#about" class="hover:underline">About</a>
+        <button
+          id="theme-toggle"
+          class="ml-4 p-2 rounded-full hover:bg-[var(--color-base)] transition"
+          title="Toggle Dark/Light">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-[var(--color-text)]/90" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="relative isolate overflow-hidden bg-base">
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <div class="grid md:grid-cols-2 items-center gap-10">
+          <div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">Maximal schneller One-Pager, <span class="text-primary">ohne Framework</span>.</h1>
+            <p class="mt-4 text-text/70 dark:text-text/60 max-w-prose">Live-Status deiner Server & APIs, <em>ohne</em> Zwischenspeicherung. Ultraschnelles First Paint, minimaler JS-Overhead.</p>
+            <div class="mt-6 flex gap-3">
+              <a href="#status" class="inline-flex items-center rounded-2xl bg-primary px-4 py-2 text-white font-medium shadow-sm hover:bg-primary/80 transition">Live Status ansehen</a>
+              <a href="#howto" class="inline-flex items-center rounded-2xl border px-4 py-2 border-text/30 dark:border-text/50 hover:bg-base/20 dark:hover:bg-base/80 transition">Setup & Code</a>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Skeleton Cards for visual interest -->
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+              <div class="flex justify-between">
+                <div>
+                  <h5 id="heizoel-price" class="leading-none text-3xl font-bold text-text dark:text-text pb-2">32.4k</h5>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40">Heizölpreis</p>
+                </div>
+                <div id="heizoel-change"
+                  class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  12%
+                  <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="area-chart"></div>
+              <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
+                <div class="flex justify-between items-center pt-5">
+                  <!-- Button -->
+                  <button
+                    id="dropdownDefaultButton"
+                    data-dropdown-toggle="lastDaysdropdown"
+                    data-dropdown-placement="bottom"
+                    class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                    type="button">
+                    Last 7 days
+                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div id="lastDaysdropdown" class="z-10 hidden bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownDefaultButton">
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Yesterday</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Today</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 7 days</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 30 days</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 90 days</a>
+                        </li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Weitere Skeleton Cards -->
+            <div class="rounded-2xl border border-text/20 dark:border-text/50 p-4 animate-pulse"></div>
+            <div class="rounded-2xl border border-text/20 dark:border-text/50 p-4 animate-pulse hidden md:block"></div>
+            <div class="rounded-2xl border border-text/20 dark:border-text/50 p-4 animate-pulse hidden md:block"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status Grid -->
+    <section id="status" class="mx-auto max-w-6xl px-4 py-12 bg-base">
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Live Server & API Status</h2>
+      <p class="mt-2 text-sm text-text/70 dark:text-text/40">Keine Zwischenspeicherung. Abfragen laufen parallel, mit Timeouts, Retries & Abort bei Tab-Wechsel.</p>
+
+      <div id="status-grid" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- API Raw Data -->
+    <section id="apis" class="mx-auto max-w-6xl px-4 pb-16 bg-base">
+      <details class="rounded-2xl border border-text/20 dark:border-text/50 open:shadow-sm">
+        <summary class="cursor-pointer select-none px-4 py-3 font-medium">Rohdaten ansehen (Debug)</summary>
+        <pre id="raw" class="overflow-x-auto p-4 text-xs text-text/70 dark:text-text/40"></pre>
+      </details>
+    </section>
+
+    <section id="about" class="mx-auto max-w-6xl px-4 pb-24 text-sm text-text/70 dark:text-text/40 bg-base">
+      <p>Dieses Template ist framework-frei, nutzt Tailwind-Utilities und minimalen JS-Code für Live-Abfragen.</p>
+    </section>
+  </main>
+
+  <script type="module">
+  const DOMAIN = 'dasnerdwork.net';
+
+  const SERVICES = [
+      { id: 'teamspeak', name: 'Teamspeak Server' },
+      { id: 'satisfactory', name: 'Satisfactory Server' },
+      { id: 'gmod', name: 'Garry\'s Mod Server [TTT]' },
+      { id: 'mc-modpack', name: 'Minecraft Modpack Server' },
+      { id: 'mc-vanilla', name: 'Minecraft Server' },
+      { id: 'musikbot', name: 'SinusBot' },
+      { id: 'phantombot', name: 'Phantombot (4 Instances)' },
+      { id: 'nextcloud', name: 'Nextcloud Server' },
+      { id: 'homeassistant', name: 'Home Assistant' },
+      { id: 'unifi', name: 'Unifi Controller' },
+      { id: 'pihole', name: 'Pi-hole' },
+  ];
+
+  // UI Helper
+  const grid = document.getElementById('status-grid');
+  const raw = document.getElementById('raw');
+
+  function badgeStatus(status) {
+    switch(status) {
+      case 'green': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-green-800 bg-green-900/40 dark:text-green-200">● Up</span>';
+      case 'yellow': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200">● Partly</span>';
+      case 'red': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-red-800 bg-red-900/40 dark:text-red-200">● Down</span>';
+      default: return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200">● Unbekannt</span>';
+    }
+  }
+
+  function cardSkeleton(svc) {
+    const el = document.createElement('article');
+    el.id = `card-${svc.id}`;
+    el.className = 'min-h-[86px] rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 animate-pulse';
+    el.innerHTML = `
+      <div class="h-4 w-28 bg-zinc-200 dark:bg-zinc-800 rounded mb-2"></div>
+      <div class="h-3 w-20 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
+    `;
+    return el;
+  }
+
+  async function renderHeizoelChart() {
+    try {
+      const res = await fetch('/api/status.php?heizoel');
+      const json = await res.json();
+      const values = json.heizoel.values;
+
+      const chartData = values.map(v => ({
+        x: v.date,  // timestamp in ms
+        y: v.value
+      }));
+
+      // Aktueller Wert
+      const latestValue = chartData[chartData.length - 1];
+      const firstValue = chartData[0];
+      const changePercent = ((latestValue - firstValue) / firstValue * 100).toFixed(2);
+
+      // Aktueller Wert + Veränderung oben anzeigen
+      const headerEl = document.querySelector('#area-chart-header');
+      if (headerEl) {
+        headerEl.innerHTML = `
+          <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">${latestValue.toFixed(2)} €</h5>
+          <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+            ${changePercent >= 0 ? '+' : ''}${changePercent}% this week
+          </p>
+        `;
+      }
+
+      const options = {
+        chart: {
+          height: 75,
+          type: "area",
+          fontFamily: "Inter, sans-serif",
+          toolbar: { show: false },
+          sparkline: { enabled: true }
+        },
+        series: [{
+          name: "Heizölpreis",
+          data: chartData
+        }],
+        stroke: { width: 3, curve: 'smooth' },
+        fill: {
+          type: "gradient",
+          gradient: { opacityFrom: 0.5, opacityTo: 0, gradientToColors: ["#1C64F2"] }
+        },
+        xaxis: {
+          type: 'datetime', // sehr wichtig!
+          labels: { show: false }, // keine Achsenlabels
+          axisBorder: { show: false },
+          axisTicks: { show: false }
+        },
+        yaxis: {
+          labels: { show: false } // keine Y-Achsenlabels
+        },
+        tooltip: {
+          enabled: true,
+          x: {
+            formatter: function(val) {
+              const d = new Date(val); // val ist der Timestamp in ms
+              const day = d.getDate().toString().padStart(2, '0');
+              const month = (d.getMonth()+1).toString().padStart(2, '0');
+              const year = d.getFullYear();
+              return `${day}.${month}.${year}`;
+            }
+          },
+          y: {
+            formatter: val => val.toFixed(2) + " €"
+          }
+        },
+        dataLabels: { enabled: false },
+        xaxis: { labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
+        yaxis: { show: false }
+      };
+
+      const chartEl = document.getElementById("area-chart");
+      if (chartEl && typeof ApexCharts !== 'undefined') {
+        const chart = new ApexCharts(chartEl, options);
+        chart.render();
+      }
+
+    } catch (e) {
+      console.error("Chart konnte nicht geladen werden", e);
+    }
+  }
+
+  async function updateHeizoelValues() {
+    try {
+      const res = await fetch('/api/status.php?heizoel');
+      const json = await res.json();
+      const heizoel = json.heizoel;
+
+      // Preis auf 2 Nachkommastellen
+      const currentPrice = heizoel.currentPrice.toFixed(2);
+      document.getElementById('heizoel-price').textContent = currentPrice;
+
+      // Prozentuale Veränderung
+      const change = heizoel.changePercent.toFixed(2);
+      const changeEl = document.getElementById('heizoel-change');
+      changeEl.childNodes[0].textContent = `${change}%`; // Nur Text, SVG bleibt
+
+      // Farbe anpassen
+      if (change >= 0) {
+        changeEl.classList.remove('text-red-500');
+        changeEl.classList.add('text-green-500');
+      } else {
+        changeEl.classList.remove('text-green-500');
+        changeEl.classList.add('text-red-500');
+      }
+    } catch (e) {
+      console.error('Fehler beim Laden der Heizöl-Daten', e);
+    }
+  }
+
+  updateHeizoelValues();
+
+  function renderCardResult(svc, data) {
+    const el = document.getElementById(`card-${svc.id}`);
+    el.classList.remove('animate-pulse');
+
+    // Hilfsfunktion für Punkteanzeige mit Nummern
+    const renderDots = (instances) => {
+      return `<div class="flex flex-wrap space-between gap-3 mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+        ${instances.map((inst, idx) => {
+          const color = inst.status === 'green' ? 'bg-green-400' :
+                        inst.status === 'yellow' ? 'bg-yellow-500' :
+                        'bg-red-500';
+          return `
+            <div class="flex items-center gap-1" title="${inst.name}">
+              <span>${idx+1}.</span>
+              ${badgeStatus(inst.status)}
+            </div>
+          `;
+        }).join('')}
+      </div>`;
+    };
+
+      // Karten-Header
+      let html = `
+      <div class="flex items-center justify-between gap-3">
+          <h3 class="font-semibold">${svc.name}</h3>
+          ${data.instances ? '' : badgeStatus(data.status)}
+      </div>
+      `;
+
+    // Inhalt je nach Typ
+    if (data.instances) {
+      html += renderDots(data.instances);
+    } else {
+      let statusParts = [];
+
+      if (data.http?.httpStatus != null) {
+      statusParts.push(`HTTP: (${data.http.httpStatus})`);
+      }
+
+      if (data.tcp?.ms != null) {
+      statusParts.push(`Delay: (${data.tcp.ms} ms)`);
+      }
+
+      html += `
+      <div class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+          ${statusParts.join(' • ')}
+      </div>
+      `;
+    }
+
+    el.innerHTML = html;
+  }
+
+  function renderCardError(svc, err, ms) {
+    const el = document.getElementById(`card-${svc.id}`);
+    el.classList.remove('animate-pulse');
+    el.innerHTML = `
+      <div class="flex items-center justify-between gap-3">
+        <h3 class="font-semibold">${svc.name}</h3>
+        ${badge(false)}
+      </div>
+      <p class="mt-2 text-sm text-red-700 dark:text-red-300">${(err && err.message) || 'Fehler beim Abruf.'}</p>
+      <div class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">${svc.url}</div>
+      <div class="mt-3 text-xs text-zinc-600 dark:text-zinc-400">${typeof ms === 'number' ? ms + ' ms • ' : ''}Request fehlgeschlagen</div>
+    `;
+  }
+
+  // Initial Skeletons
+  for (const svc of SERVICES) grid.appendChild(cardSkeleton(svc));
+
+  async function refreshAll() {
+    try {
+      const controller = new AbortController();
+      activeController = controller;
+      const timeout = setTimeout(() => controller.abort(), 5000);
+
+      const res = await fetch('/api/status.php', { cache: 'no-store', signal: controller.signal });
+      clearTimeout(timeout);
+
+      const data = await res.json();
+      raw.textContent = JSON.stringify(data, null, 2);
+
+      // SERVICES nach Status sortieren
+      const sortedServices = SERVICES.slice().sort((a, b) => {
+        const statusA = data[a.id]?.status || 'unknown';
+        const statusB = data[b.id]?.status || 'unknown';
+        const order = { green: 0, yellow: 1, red: 2, unknown: 3 };
+        return (order[statusB] || 3) - (order[statusA] || 3);
+      });
+
+      // Alte Karten entfernen
+      grid.innerHTML = '';
+
+      // Skeletons erstellen
+      for (const svc of sortedServices) {
+        grid.appendChild(cardSkeleton(svc));
+      }
+
+      // Daten eintragen
+      for (const svc of sortedServices) {
+        if (data[svc.id]) {
+          renderCardResult(svc, data[svc.id]);
+        } else {
+          renderCardResult(svc, { status: 'unknown' });
+        }
+      }
+
+    } catch (err) {
+      console.error('Status-Check fehlgeschlagen', err);
+
+      grid.innerHTML = '';
+      for (const svc of SERVICES) {
+        grid.appendChild(cardSkeleton(svc));
+        renderCardResult(svc, { status: 'unknown', http: { ok: false }, tcp: { ok: false } });
+      }
+    }
+    activeController = null;
+  }
+
+  // Optional: Tab-Wechsel überwachen und alle Fetches abbrechen
+  let activeController = null;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && activeController) {
+      activeController.abort();
+    }
+  });
+  renderHeizoelChart();
+  refreshAll();
+  // setInterval(refreshAll, 60000);
+  // setInterval(renderHeizoelChart, 60000);
+
+  (() => {
+    const toggle = document.getElementById('theme-toggle');
+    const headerFavicon = document.getElementById('header-favicon');
+
+    // SVGs for light/dark mode
+    const moonSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-text)]/90 lucide lucide-moon-icon lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>`;
+    const sunSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-text)]/90 lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
+
+    // initiales Theme
+    let savedTheme = localStorage.getItem('theme');
+    let isDark;
+    if (savedTheme === 'light') {
+      isDark = false;
+    } else if (savedTheme === 'dark') {
+      isDark = true;
+    } else {
+      // kein savedTheme → Systempräferenz
+      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    document.documentElement.classList.toggle('dark', isDark);
+
+    const updateFavicon = () => {
+      let link = document.querySelector("link[rel~='icon']");
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        link.type = 'image/png';
+        link.sizes = '32x32';
+        document.head.appendChild(link);
+      }
+
+      const src = isDark
+        ? 'assets/img/favicon/dark-32.png'
+        : 'assets/img/favicon/light-32.png';
+
+      // Head-Favicon
+      link.href = src;
+
+      // Header-Favicon
+      if (headerFavicon) headerFavicon.src = src;
+    };
+
+    const updateUI = () => {
+      toggle.innerHTML = isDark ? sunSVG : moonSVG;
+      updateFavicon();
+    };
+
+    toggle.addEventListener('click', () => {
+      isDark = !isDark;
+      document.documentElement.classList.toggle('dark', isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateUI();
+    });
+
+    updateUI();
+  })();
+  </script>
+</body>
+</html>
