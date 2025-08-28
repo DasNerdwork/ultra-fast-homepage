@@ -139,6 +139,20 @@
     </section>
   </main>
 
+  <footer class="w-full py-2 text-center text-sm text-[var(--color-text-secondary)]">
+    <span>
+      &copy; <span id="year"></span> DasNerdwork.net |
+      <a href="/impressum"
+        class="font-semibold text-black dark:text-white hover:text-black/80 dark:hover:text-white/80 transition-colors">
+        Impressum
+      </a>
+      &amp;
+      <a href="/datenschutz"
+        class="font-semibold text-black dark:text-white hover:text-black/80 dark:hover:text-white/80 transition-colors">
+        Datenschutz
+      </a>
+    </span>
+  </footer>
   <script type="module">
   const DOMAIN = 'dasnerdwork.net';
 
@@ -159,6 +173,7 @@
   // UI Helper
   const grid = document.getElementById('status-grid');
   const raw = document.getElementById('raw');
+  document.getElementById("year").textContent = new Date().getFullYear();
 
   function badgeStatus(status) {
     switch(status) {
@@ -300,7 +315,7 @@
 
     // Hilfsfunktion für Punkteanzeige mit Nummern
     const renderDots = (instances) => {
-      return `<div class="flex flex-wrap space-between gap-3 mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+      return `<div class="flex flex-wrap space-between gap-3 mt-2 text-sm text-zinc-600 dark:text-zinc-300 text-text">
         ${instances.map((inst, idx) => {
           const color = inst.status === 'green' ? 'bg-green-400' :
                         inst.status === 'yellow' ? 'bg-yellow-500' :
@@ -338,8 +353,8 @@
       }
 
       html += `
-      <div class="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-          ${statusParts.join(' • ')}
+      <div class="mt-2 text-sm">
+          ${statusParts.join(' - ')}
       </div>
       `;
     }
