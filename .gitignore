@@ -1,0 +1,16 @@
+# Node modules (generated from package.json)
+node_modules
+vendor
+
+# Environment file (secrets)
+.env
+
+# Tailwind output
+assets/output.css
+
+# Optional logfiles, caches & os-specifics
+*.log
+*.cache
+*.lock
+.vscode
+.DS_Store
