@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^4.1.12"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.12",
+    "apexcharts": "^3.46.0",
+    "flowbite": "^3.1.2",
+    "postcss": "^8.5.6"
+  },
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./assets/input.css -o ./assets/output.css --minify --content './**/*.html'"
+  }
+}
