@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.12",
+    "terser": "^5.43.1"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.12",
@@ -9,6 +10,8 @@
     "postcss": "^8.5.6"
   },
   "scripts": {
-    "dev": "npx @tailwindcss/cli -i ./assets/input.css -o ./assets/output.css --minify --content './**/*.html'"
+    "build:css": "npx @tailwindcss/cli -i ./static/assets/css/input.css -o ./static/assets/css/output.css --minify --content './**/*.html'",
+    "build:js": "npx terser ./static/assets/js/main.js -o ./static/assets/js/main.min.js --compress --mangle",
+    "dev": "npm run build:css && npm run build:js"
   }
 }

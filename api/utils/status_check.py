@@ -41,14 +41,18 @@ def check_tcp(host: str, port: Optional[int], timeout=2):
     except:
         return {'ok': False, 'ms': None}
 
-def check_http(url: Optional[str], headers=None, timeout=2):
+def check_http(url: Optional[str], headers=None, timeout=2, method="HEAD"):
     if url is None:
         return None
     try:
-        resp = requests.head(url, headers=headers, timeout=timeout, allow_redirects=True)
+        if method == "HEAD":
+            resp = requests.head(url, headers=headers, timeout=timeout, allow_redirects=True)
+        else:
+            resp = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
         return {'ok': 200 <= resp.status_code < 400, 'httpStatus': resp.status_code}
     except:
         return {'ok': False, 'httpStatus': None}
+
 
 def group_services(results: dict, prefix: str, label_map: Optional[dict] = None):
     if label_map is None:
@@ -73,7 +77,7 @@ def get_service_status(service_name: Optional[str] = None):
         if service_name and service_name != id and not (service_name.startswith("pb") and id.startswith("pb")):
             continue
         headers = {"Authorization": f"Bearer {HA_TOKEN}"} if id == "homeassistant" else None
-        http_res = check_http(svc['url'], headers=headers)
+        http_res = check_http(svc['url'], headers=headers, method="GET" if id=="homeassistant" else "HEAD")
         tcp_res = check_tcp(DOMAIN, svc['port'])
         status = 'green'
         if ((http_res is False or http_res is None) and (tcp_res is False or tcp_res is None)):
@@ -81,15 +85,6 @@ def get_service_status(service_name: Optional[str] = None):
         elif (http_res is False or tcp_res is False):
             status = 'yellow'
         results[id] = {'http': http_res, 'tcp': tcp_res, 'status': status}
-
-    # Phantombot nur hinzufügen, wenn kein einzelner Service gewählt wurde
-    if not service_name or service_name.startswith("pb"):
-        results['phantombot'] = group_services(results, 'pb', {
-            'pb-smetti': 'Smetti',
-            'pb-junky': 'Junky',
-            'pb-orphi': 'Orphi',
-            'pb-snacky': 'Snacky'
-        })
 
     return results
 
