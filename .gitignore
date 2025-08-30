@@ -14,3 +14,4 @@ assets/output.css
 *.lock
 .vscode
 .DS_Store
+__pycache__

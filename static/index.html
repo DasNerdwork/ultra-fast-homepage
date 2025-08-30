@@ -29,7 +29,7 @@
       </div>
       <nav class="hidden sm:flex items-center gap-6 text-sm">
         <a href="#status" class="hover:underline">Status</a>
-        <a href="#apis" class="hover:underline">APIs</a>
+        <a href="https://api.dasnerdwork.net/docs" class="hover:underline">API</a>
         <a href="#about" class="hover:underline">About</a>
         <button
           id="theme-toggle"
@@ -70,7 +70,7 @@
                   </svg>
                 </div>
               </div>
-              <div id="area-chart"></div>
+              <div id="oil-chart"></div>
               <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
                 <div class="flex justify-between items-center pt-5">
                   <!-- Button -->
@@ -108,11 +108,165 @@
                 </div>
               </div>
             </div>
-
-            <!-- Weitere Skeleton Cards -->
-            <div class="rounded-2xl border border-text/20 dark:border-text/50 p-4 animate-pulse"></div>
-            <div class="rounded-2xl border border-text/20 dark:border-text/50 p-4 animate-pulse hidden md:block"></div>
-            <div class="rounded-2xl border border-text/20 dark:border-text/50 p-4 animate-pulse hidden md:block"></div>
+            <!-- Skeleton Cards for visual interest -->
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+              <div class="flex justify-between">
+                <div>
+                  <h5 id="heizoel-price" class="leading-none text-3xl font-bold text-text dark:text-text pb-2">32.4k</h5>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40">Strompreis (Börse)</p>
+                </div>
+                <div id="heizoel-change"
+                  class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  12%
+                  <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="energy-chart"></div>
+              <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
+                <div class="flex justify-between items-center pt-5">
+                  <!-- Button -->
+                  <button
+                    id="dropdownDefaultButton"
+                    data-dropdown-toggle="lastDaysdropdown"
+                    data-dropdown-placement="bottom"
+                    class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                    type="button">
+                    Last 7 days
+                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div id="lastDaysdropdown" class="z-10 hidden bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownDefaultButton">
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Yesterday</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Today</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 7 days</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 30 days</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 90 days</a>
+                        </li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Skeleton Cards for visual interest -->
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+              <div class="flex justify-between">
+                <div>
+                  <h5 id="heizoel-price" class="leading-none text-3xl font-bold text-text dark:text-text pb-2">32.4k</h5>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40">Benzinpreis</p>
+                </div>
+                <div id="heizoel-change"
+                  class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  12%
+                  <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="petrol-chart"></div>
+              <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
+                <div class="flex justify-between items-center pt-5">
+                  <!-- Button -->
+                  <button
+                    id="dropdownDefaultButton"
+                    data-dropdown-toggle="lastDaysdropdown"
+                    data-dropdown-placement="bottom"
+                    class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                    type="button">
+                    Last 7 days
+                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div id="lastDaysdropdown" class="z-10 hidden bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownDefaultButton">
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Yesterday</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Today</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 7 days</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 30 days</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 90 days</a>
+                        </li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Skeleton Cards for visual interest -->
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+              <div class="flex justify-between">
+                <div>
+                  <h5 id="heizoel-price" class="leading-none text-3xl font-bold text-text dark:text-text pb-2">32.4k</h5>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40">Dieselpreis</p>
+                </div>
+                <div id="heizoel-change"
+                  class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  12%
+                  <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="diesel-chart"></div>
+              <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
+                <div class="flex justify-between items-center pt-5">
+                  <!-- Button -->
+                  <button
+                    id="dropdownDefaultButton"
+                    data-dropdown-toggle="lastDaysdropdown"
+                    data-dropdown-placement="bottom"
+                    class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                    type="button">
+                    Last 7 days
+                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div id="lastDaysdropdown" class="z-10 hidden bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownDefaultButton">
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Yesterday</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Today</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 7 days</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 30 days</a>
+                        </li>
+                        <li>
+                          <a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 90 days</a>
+                        </li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -154,7 +308,7 @@
     </span>
   </footer>
   <script type="module">
-  const DOMAIN = 'dasnerdwork.net';
+  const API_BASE = 'https://api.dasnerdwork.net/v1';
 
   const SERVICES = [
       { id: 'teamspeak', name: 'Teamspeak Server' },
@@ -195,119 +349,123 @@
     return el;
   }
 
-  async function renderHeizoelChart() {
+  /**
+   * Generischer Chart-Renderer für beliebige APIs
+   * @param {string} apiPath - z.B. "/v1/oil"
+   * @param {string} valueKey - Feldname im JSON, z.B. "value", "price", "e5"
+   * @param {string} chartTitle - Titel der Serie im Chart
+   * @param {string} headerSelector - Selector für Headerbereich, optional
+   * @param {string} chartSelector - Selector für Chart-Container
+   * @param {number} last - letzte X Tage
+   * @param {Array<string>} valuesPath - optionaler Pfad zum Array, z.B. ["values"] für Oil
+   */
+  async function renderApiChart({ apiPath, valueKey, chartTitle, headerSelector, chartSelector, last = 7, valuesPath = [] }) {
     try {
-      const res = await fetch('/api/status.php?heizoel');
+      const res = await fetch(`${apiPath}?last=${last}`);
       const json = await res.json();
-      const values = json.heizoel.values;
 
-      const chartData = values.map(v => ({
-        x: v.date,  // timestamp in ms
-        y: v.value
-      }));
-
-      // Aktueller Wert
-      const latestValue = chartData[chartData.length - 1];
-      const firstValue = chartData[0];
-      const changePercent = ((latestValue - firstValue) / firstValue * 100).toFixed(2);
-
-      // Aktueller Wert + Veränderung oben anzeigen
-      const headerEl = document.querySelector('#area-chart-header');
-      if (headerEl) {
-        headerEl.innerHTML = `
-          <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">${latestValue.toFixed(2)} €</h5>
-          <p class="text-base font-normal text-gray-500 dark:text-gray-400">
-            ${changePercent >= 0 ? '+' : ''}${changePercent}% this week
-          </p>
-        `;
+      // Falls valuesPath angegeben, Array aus Response extrahieren
+      let dataArray = json;
+      for (const key of valuesPath) {
+        if (dataArray[key] !== undefined) {
+          dataArray = dataArray[key];
+        } else {
+          dataArray = [];
+          break;
+        }
       }
 
+      // chartData erstellen
+      const chartData = dataArray.map(v => ({
+        x: typeof v.date === 'number' ? v.date : new Date(v.date).getTime(),
+        y: v[valueKey]
+      }));
+
+      if (chartData.length === 0) return;
+
+      // Aktueller Wert + Veränderung
+      const latestValue = chartData[chartData.length - 1].y;
+      const firstValue = chartData[0].y;
+      const changePercent = ((latestValue - firstValue) / firstValue * 100).toFixed(2);
+
+      // Header updaten
+      if (headerSelector) {
+        const headerEl = document.querySelector(headerSelector);
+        if (headerEl) {
+          headerEl.innerHTML = `
+            <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">${latestValue.toFixed(2)} €</h5>
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+              ${changePercent >= 0 ? '+' : ''}${changePercent}% last ${last} days
+            </p>
+          `;
+        }
+      }
+
+      // Chart rendern
       const options = {
-        chart: {
-          height: 75,
-          type: "area",
-          fontFamily: "Inter, sans-serif",
-          toolbar: { show: false },
-          sparkline: { enabled: true }
-        },
-        series: [{
-          name: "Heizölpreis",
-          data: chartData
-        }],
+        chart: { height: 75, type: "area", fontFamily: "Inter, sans-serif", toolbar: { show: false }, sparkline: { enabled: true } },
+        series: [{ name: chartTitle, data: chartData }],
         stroke: { width: 3, curve: 'smooth' },
-        fill: {
-          type: "gradient",
-          gradient: { opacityFrom: 0.5, opacityTo: 0, gradientToColors: ["#1C64F2"] }
-        },
-        xaxis: {
-          type: 'datetime', // sehr wichtig!
-          labels: { show: false }, // keine Achsenlabels
-          axisBorder: { show: false },
-          axisTicks: { show: false }
-        },
-        yaxis: {
-          labels: { show: false } // keine Y-Achsenlabels
-        },
-        tooltip: {
-          enabled: true,
-          x: {
-            formatter: function(val) {
-              const d = new Date(val); // val ist der Timestamp in ms
-              const day = d.getDate().toString().padStart(2, '0');
-              const month = (d.getMonth()+1).toString().padStart(2, '0');
-              const year = d.getFullYear();
-              return `${day}.${month}.${year}`;
-            }
-          },
-          y: {
-            formatter: val => val.toFixed(2) + " €"
-          }
-        },
-        dataLabels: { enabled: false },
-        xaxis: { labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
-        yaxis: { show: false }
+        fill: { type: "gradient", gradient: { opacityFrom: 0.5, opacityTo: 0, gradientToColors: ["#1C64F2"] } },
+        xaxis: { type: 'datetime', labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
+        yaxis: { show: false },
+        tooltip: { enabled: true, x: { formatter: val => new Date(val).toLocaleDateString() }, y: { formatter: val => val.toFixed(2) + " €" } },
+        dataLabels: { enabled: false }
       };
 
-      const chartEl = document.getElementById("area-chart");
+      const chartEl = document.querySelector(chartSelector);
       if (chartEl && typeof ApexCharts !== 'undefined') {
         const chart = new ApexCharts(chartEl, options);
         chart.render();
       }
 
     } catch (e) {
-      console.error("Chart konnte nicht geladen werden", e);
+      console.error(`Chart für ${apiPath} konnte nicht geladen werden`, e);
     }
   }
 
-  async function updateHeizoelValues() {
-    try {
-      const res = await fetch('/api/status.php?heizoel');
-      const json = await res.json();
-      const heizoel = json.heizoel;
+  // Beispiele für Aufrufe:
 
-      // Preis auf 2 Nachkommastellen
-      const currentPrice = heizoel.currentPrice.toFixed(2);
-      document.getElementById('heizoel-price').textContent = currentPrice;
+  // Heizöl
+  renderApiChart({
+    apiPath: `${API_BASE}/oil`,
+    valueKey: "value",
+    chartTitle: "Heizölpreis",
+    headerSelector: "#oil-header",
+    chartSelector: "#oil-chart",
+    last: 7,
+    valuesPath: ["values"]
+  });
 
-      // Prozentuale Veränderung
-      const change = heizoel.changePercent.toFixed(2);
-      const changeEl = document.getElementById('heizoel-change');
-      changeEl.childNodes[0].textContent = `${change}%`; // Nur Text, SVG bleibt
+  // Energy
+  renderApiChart({
+    apiPath: `${API_BASE}/energy`,
+    valueKey: "price",
+    chartTitle: "Strompreis",
+    headerSelector: "#energy-header",
+    chartSelector: "#energy-chart",
+    last: 7
+  });
 
-      // Farbe anpassen
-      if (change >= 0) {
-        changeEl.classList.remove('text-red-500');
-        changeEl.classList.add('text-green-500');
-      } else {
-        changeEl.classList.remove('text-green-500');
-        changeEl.classList.add('text-red-500');
-      }
-    } catch (e) {
-      console.error('Fehler beim Laden der Heizöl-Daten', e);
-    }
-  }
+  // Petrol, z.B. Diesel
+  renderApiChart({
+    apiPath: `${API_BASE}/petrol`,
+    valueKey: "e5",
+    chartTitle: "Benzinpreis",
+    headerSelector: "#petrol-header",
+    chartSelector: "#petrol-chart",
+    last: 7
+  });
 
-  updateHeizoelValues();
+  // Petrol, z.B. Diesel
+  renderApiChart({
+    apiPath: `${API_BASE}/petrol`,
+    valueKey: "diesel",
+    chartTitle: "Dieselpreis",
+    headerSelector: "#diesel-header",
+    chartSelector: "#diesel-chart",
+    last: 7
+  });
 
   function renderCardResult(svc, data) {
     const el = document.getElementById(`card-${svc.id}`);
@@ -379,55 +537,6 @@
   // Initial Skeletons
   for (const svc of SERVICES) grid.appendChild(cardSkeleton(svc));
 
-  async function refreshAll() {
-    try {
-      const controller = new AbortController();
-      activeController = controller;
-      const timeout = setTimeout(() => controller.abort(), 5000);
-
-      const res = await fetch('/api/status.php', { cache: 'no-store', signal: controller.signal });
-      clearTimeout(timeout);
-
-      const data = await res.json();
-      raw.textContent = JSON.stringify(data, null, 2);
-
-      // SERVICES nach Status sortieren
-      const sortedServices = SERVICES.slice().sort((a, b) => {
-        const statusA = data[a.id]?.status || 'unknown';
-        const statusB = data[b.id]?.status || 'unknown';
-        const order = { green: 0, yellow: 1, red: 2, unknown: 3 };
-        return (order[statusB] || 3) - (order[statusA] || 3);
-      });
-
-      // Alte Karten entfernen
-      grid.innerHTML = '';
-
-      // Skeletons erstellen
-      for (const svc of sortedServices) {
-        grid.appendChild(cardSkeleton(svc));
-      }
-
-      // Daten eintragen
-      for (const svc of sortedServices) {
-        if (data[svc.id]) {
-          renderCardResult(svc, data[svc.id]);
-        } else {
-          renderCardResult(svc, { status: 'unknown' });
-        }
-      }
-
-    } catch (err) {
-      console.error('Status-Check fehlgeschlagen', err);
-
-      grid.innerHTML = '';
-      for (const svc of SERVICES) {
-        grid.appendChild(cardSkeleton(svc));
-        renderCardResult(svc, { status: 'unknown', http: { ok: false }, tcp: { ok: false } });
-      }
-    }
-    activeController = null;
-  }
-
   // Optional: Tab-Wechsel überwachen und alle Fetches abbrechen
   let activeController = null;
   document.addEventListener('visibilitychange', () => {
@@ -435,8 +544,7 @@
       activeController.abort();
     }
   });
-  renderHeizoelChart();
-  refreshAll();
+  // refreshAll();
   // setInterval(refreshAll, 60000);
   // setInterval(renderHeizoelChart, 60000);
 

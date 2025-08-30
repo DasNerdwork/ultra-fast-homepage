@@ -1,0 +1,191 @@
+/* swagger.css */
+@import url("./swagger-original.css");
+
+/* deine Anpassungen überschreiben die Original-Styles */
+body {
+    background-color: #060f14 !important;
+}
+
+.swagger-ui .info .title, .swagger-ui .opblock-tag, .swagger-ui .opblock-summary-path, .opblock-summary-description, .opblock-body * {
+    color: #f4f1d0 !important;
+}
+
+/* Expand/collapse operation buttons */
+.swagger-ui button.expand-operation,
+.swagger-ui button.opblock-control-arrow {
+    color: #f4f1d0 !important;  /* text inside button */
+}
+
+/* SVG arrows inside those buttons */
+.swagger-ui button.expand-operation svg,
+.swagger-ui button.opblock-control-arrow svg,
+.swagger-ui section.models h4 svg,
+.swagger-ui .json-schema-2020-12-accordion__icon svg {
+    fill: #f4f1d0 !important;   /* arrow color */
+}
+
+.swagger-ui .json-schema-2020-12-accordion__icon svg {
+    transform: rotate(90deg) !important;  /* point right when collapsed */
+    width: 1.5em !important;
+    height: 1.5em !important;
+}
+
+.swagger-ui .json-schema-2020-12-accordion__icon {
+    vertical-align: text-bottom !important;
+}
+
+.swagger-ui .info hgroup.main a {
+    display: none !important;  /* Hide the link */
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+    background: #0e558c !important;  /* GET - blue */
+    color: #f4f1d0 !important;
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary, .swagger-ui .opblock.opblock-get  {
+    border-color: #0e558c !important;
+    background: #0d1e26 !important;
+}
+
+.swagger-ui .opblock .opblock-section-header {
+    background: #0d1e26 !important;
+}
+
+.swagger-ui .btn {
+    border-color: #f4f1d0 !important;
+}
+
+.swagger-ui .json-schema-2020-12-accordion {
+    background: #060f14 !important;
+}
+
+.swagger-ui section.models {
+    background: #0d1e26 !important;
+    color: #f4f1d0 !important;
+}
+
+.swagger-ui .info .title small.version-stamp {
+    background-color: #0e558c !important;  /* primary color */
+    pre {
+        color: #f4f1d0 !important;
+    }
+}
+
+.swagger-ui .info .title small {
+    background-color: #f4f1d0 !important;
+    pre {
+        color: #060f13 !important;
+    }
+}
+
+.swagger-ui section.models h4 span,
+.swagger-ui .json-schema-2020-12__title {
+    color: #f4f1d0 !important;
+}
+
+.swagger-ui .json-schema-2020-12-expand-deep-button {
+    display: none !important;  /* Hide the button */
+}
+
+.swagger-ui .json-schema-2020-12 {
+    background: transparent !important;
+}
+
+.swagger-ui .json-schema-2020-12-keyword__name--primary,
+.json-schema-2020-12-keyword__name .json-schema-2020-12-keyword__name--primary {
+    color: #f4f1d0 !important;  /* primary color */
+}
+
+.swagger-ui .copy-to-clipboard {
+    background: #0e558c !important;
+    svg path {
+        fill: #f4f1d0 !important;
+    }
+}
+
+.swagger-ui .highlight-code .copy-to-clipboard {
+    right: 116px !important;
+}
+
+.swagger-ui input, .swagger-ui select {
+    background: #f4f1d0 !important;
+    color: #060f13 !important;
+}
+
+.swagger-ui .btn.execute {
+    background: #0e558c !important;
+    border: none !important;
+}
+
+pre.microlight {
+    color: #f4f1d0 !important;
+    background: #060f14 !important;
+}
+
+.swagger-ui .models .json-schema-2020-12:not(.json-schema-2020-12--embedded) {
+    background: #060f14 !important;
+}
+
+.swagger-ui .info .title {
+    display: flex !important;
+    align-items: center !important;
+    span {
+        display: inline-flex !important;
+    }
+}
+
+.swagger-ui .response-control-media-type--accept-controller select {
+    border-color: #0e558c !important;
+}
+
+select.content-type {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+select.content-type:focus {
+    border-color: #0e558c !important;
+}
+
+.swagger-ui .download-contents {
+    background: #f4f1d0 !important;
+    color: #060f13 !important;
+    right: 26px !important;
+}
+
+/* Width + height for all scrollbars */
+*::-webkit-scrollbar {
+  width: .75rem;
+  height: .75rem;
+}
+
+/* Track (background) */
+*::-webkit-scrollbar-track {
+  background: #f4f1d0; /* your yellow */
+}
+
+/* Thumb (the draggable part) */
+*::-webkit-scrollbar-thumb {
+  background: #0e558c; /* your blue */
+  border-radius: .5rem;
+}
+
+/* Optional hover effect */
+*::-webkit-scrollbar-thumb:hover {
+  background: #083b60; /* darker blue on hover */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0e558c #f4f1d0;
+}
+
+.swagger-ui .opblock.opblock-get .tab-header .tab-item.active h4 span:after {
+    background: #0e558c !important;  /* primary color */
+}
+
+.swagger-ui .json-schema-2020-12__constraint--string {
+    background: #0e558c !important;  /* primary color */
+}
