@@ -2,6 +2,8 @@
 
 A minimalist, framework-free one-pager displaying live status of servers and APIs. Optimized for ultra-fast first paint, minimal JavaScript overhead, and direct API requests.
 
+<img width="428" height="138" alt="image" src="https://github.com/user-attachments/assets/4aed064e-be5b-4d78-9be5-d5113babf3b7" />
+
 ---
 
 ## Features
