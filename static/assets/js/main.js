@@ -305,7 +305,7 @@ try {
 
     // Chart rendern
 
-    let darkFill = localStorage.getItem('theme') === 'dark' ? "#1C64F2" : "#cb9150";
+    let darkFill = localStorage.getItem('theme') === 'light' ? "#cb9150" : "#1C64F2";
     const options = {
     chart: { height: 75, type: "area", fontFamily: "Inter, sans-serif", toolbar: { show: false }, sparkline: { enabled: true } },
     series: [{ name: chartTitle, data: chartData }],
