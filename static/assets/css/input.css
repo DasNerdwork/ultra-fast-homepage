@@ -3,6 +3,14 @@
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 
+@custom-variant dark {
+  @media not print {
+    .dark & {
+      @slot;
+    }
+  }
+}
+
 /* Bestehendes Flowbite Theme */
 @theme {
   --color-brand-50: #eff6ff;

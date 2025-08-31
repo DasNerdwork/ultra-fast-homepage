@@ -95,13 +95,18 @@ link.addEventListener('click', e => {
 
 // Hilfsfunktion: Badge für Status
 function badgeStatus(status) {
-switch (status) {
-    case 'green': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-green-800 bg-green-900/40 dark:text-green-200">● OK</span>';
-    case 'yellow': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200">● Warning</span>';
-    case 'red': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-red-800 bg-red-900/40 dark:text-red-200">● Offline</span>';
-    default: return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200">● Unknown</span>';
+    switch (status) {
+        case 'green': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-green-300 bg-green-800/70">● OK</span>';
+        case 'yellow': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800">● Warning</span>';
+        case 'red': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-red-200 bg-red-900/70 ">● Offline</span>';
+        default: return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-800">● Unknown</span>';
+        }
 }
-}
+
+// case 'green': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-green-800 bg-green-900/40 dark:text-green-200">● OK</span>';
+// case 'yellow': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200">● Warning</span>';
+// case 'red': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-red-800 bg-red-900/40 dark:text-red-200">● Offline</span>';
+// default: return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200">● Unknown</span>';
 
 // Karte für einen Service rendern
 function renderCard(name, id, data) {
@@ -481,17 +486,9 @@ const headerFavicon = document.getElementById('header-favicon');
 const moonSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-text)]/90 lucide lucide-moon-icon lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>`;
 const sunSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-text)]/90 lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
 
-// initiales Theme
-let savedTheme = localStorage.getItem('theme');
-let isDark;
-if (savedTheme === 'light') {
-    isDark = false;
-} else if (savedTheme === 'dark') {
-    isDark = true;
-} else {
-    // kein savedTheme → Systempräferenz
-    isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-}
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+let isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
 
 document.documentElement.classList.toggle('dark', isDark);
 
