@@ -5,8 +5,9 @@ vendor
 # Environment file (secrets)
 .env
 
-# Tailwind output
-assets/output.css
+# Tailwind output & minified JS
+static/assets/css/output.css
+static/assets/js/main.min.js
 
 # Optional logfiles, caches & os-specifics
 *.log
