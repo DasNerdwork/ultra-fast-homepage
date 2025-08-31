@@ -96,7 +96,7 @@ link.addEventListener('click', e => {
 // Hilfsfunktion: Badge für Status
 function badgeStatus(status) {
     switch (status) {
-        case 'green': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-green-300 bg-green-800/70">● OK</span>';
+        case 'green': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-green-200 bg-green-800/60">● OK</span>';
         case 'yellow': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800">● Warning</span>';
         case 'red': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-red-200 bg-red-900/70 ">● Offline</span>';
         default: return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-800">● Unknown</span>';
@@ -304,11 +304,13 @@ try {
     }
 
     // Chart rendern
+
+    let darkFill = localStorage.getItem('theme') === 'dark' ? "#1C64F2" : "#cb9150";
     const options = {
     chart: { height: 75, type: "area", fontFamily: "Inter, sans-serif", toolbar: { show: false }, sparkline: { enabled: true } },
     series: [{ name: chartTitle, data: chartData }],
-    stroke: { width: 3, curve: 'smooth' },
-    fill: { type: "gradient", gradient: { opacityFrom: 0.5, opacityTo: 0, gradientToColors: ["#1C64F2"] } },
+    stroke: { width: 3, curve: 'smooth', colors: [darkFill] },
+    fill: { type: "gradient", gradient: { opacityFrom: 0.5, opacityTo: 0, colors: undefined }, colors: [darkFill] },
     xaxis: { type: 'datetime', labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
     yaxis: { show: false },
     tooltip: {
@@ -320,13 +322,13 @@ try {
         const val = point.y;
         const date = new Date(point.x).toLocaleDateString();
         return `
-            <div class="bg-card text-text p-1 rounded-lg text-xs flex flex-col items-center">
-            <div class="font-semibold mb-1 border-b border-current w-full text-center pb-1">
-                ${date}
-            </div>
-            <div>
-                ${val.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
-            </div>
+            <div class="bg-card text-text p-1 rounded-lg text-xs flex flex-col items-center border">
+                <div class="font-semibold mb-1 border-b border-current w-full text-center pb-1">
+                    ${date}
+                </div>
+                <div>
+                    ${val.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+                </div>
             </div>
         `;
         }
@@ -349,53 +351,56 @@ try {
 }
 }
 
-// Heizöl
-renderApiChart({
-apiPath: `${API_BASE}/oil`,
-valueKey: "value",
-chartTitle: "Heizölpreis",
-headerSelector: "#oil-header",
-changeSelector: "#oil-change",
-chartSelector: "#oil-chart",
-last: 7,
-valuesPath: ["values"]
-});
+// Hilfsfunktion: alle Charts neu rendern
+function refreshAllCharts() {
+    // Heizöl
+    renderApiChart({
+    apiPath: `${API_BASE}/oil`,
+    valueKey: "value",
+    chartTitle: "Heizölpreis",
+    headerSelector: "#oil-header",
+    changeSelector: "#oil-change",
+    chartSelector: "#oil-chart",
+    last: 7,
+    valuesPath: ["values"]
+    });
 
-// Energy
-renderApiChart({
-apiPath: `${API_BASE}/energy`,
-valueKey: "price",
-chartTitle: "Strompreis",
-headerSelector: "#energy-header",
-changeSelector: "#energy-change",
-chartSelector: "#energy-chart",
-last: 7
-});
+    // Energy
+    renderApiChart({
+    apiPath: `${API_BASE}/energy`,
+    valueKey: "price",
+    chartTitle: "Strompreis",
+    headerSelector: "#energy-header",
+    changeSelector: "#energy-change",
+    chartSelector: "#energy-chart",
+    last: 7
+    });
 
-// Petrol, z.B. e5
-renderApiChart({
-apiPath: `${API_BASE}/petrol`,
-valueKey: "e5",
-chartTitle: "Benzinpreis",
-headerSelector: "#petrol-header",
-changeSelector: "#petrol-change",
-chartSelector: "#petrol-chart",
-last: 7
-});
+    // Petrol, z.B. e5
+    renderApiChart({
+    apiPath: `${API_BASE}/petrol`,
+    valueKey: "e5",
+    chartTitle: "Benzinpreis",
+    headerSelector: "#petrol-header",
+    changeSelector: "#petrol-change",
+    chartSelector: "#petrol-chart",
+    last: 7
+    });
 
-// Bitcoin-Chart
-renderApiChart({
-apiPath: `${API_BASE}/btc`,
-valueKey: 'price_eur', // wir wandeln die API um
-chartTitle: 'Bitcoin (EUR)',
-headerSelector: '#bitcoin-header',
-changeSelector: '#bitcoin-change',
-chartSelector: '#bitcoin-chart',
-last: 7,
-formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
-colorUpDown: true
-});
-
+    // Bitcoin-Chart
+    renderApiChart({
+    apiPath: `${API_BASE}/btc`,
+    valueKey: 'price_eur', // wir wandeln die API um
+    chartTitle: 'Bitcoin (EUR)',
+    headerSelector: '#bitcoin-header',
+    changeSelector: '#bitcoin-change',
+    chartSelector: '#bitcoin-chart',
+    last: 7,
+    formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
+    colorUpDown: true
+    });
+}
+refreshAllCharts();
 
 function renderCardResult(svc, data) {
 const el = document.getElementById(`card-${svc.id}`);
@@ -522,6 +527,7 @@ toggle.addEventListener('click', () => {
     isDark = !isDark;
     document.documentElement.classList.toggle('dark', isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    refreshAllCharts();
     updateUI();
 });
 

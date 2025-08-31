@@ -1,18 +1,19 @@
 # DasNerdwork.net - Ultra-Fast One-Pager
 
-A minimalist, framework-free one-pager showing live status of your servers and APIs. Optimized for maximum speed, minimal JavaScript overhead, and fast first paint.
+A minimalist, framework-free one-pager displaying live status of servers and APIs. Optimized for ultra-fast first paint, minimal JavaScript overhead, and direct API requests.
 
 ---
 
 ## Features
 
 - Live status for servers & APIs
-- No caching, direct API requests
-- Parallel requests with timeout, retries & abort on tab switch
-- Heating oil price chart via ApexCharts
+- Price tracking for heating oil, electricity, petrol & bitcoin
+- Charts via ApexCharts with selectable timeframes (7, 30, 90 days)
 - Dark/Light mode toggle with local storage
-- Minimal JS & CSS, uses TailwindCSS utilities
+- Minimal JS & CSS footprint (TailwindCSS & Flowbite)
+- Responsive layout for all screen sizes
 - Raw data view (debug) using `<details>` tag
+- No frameworks required
 - Responsive layout for all screen sizes
 
 ---
@@ -23,14 +24,17 @@ This project has a simple and minimalistic project structure without the need fo
 
 ```
 /
-├─ api/ # Backend endpoints for live status
-├─ assets/ # CSS, JS, images
-├─ datenschutz.html # Privacy policy
-├─ impressum.html # Legal notice / imprint
-├─ index.html # Main one-pager
-├─ package.json # Node.js dependencies
-├─ package-lock.json # Node.js lockfile
-└─ .gitignore # Ignored files (node_modules, .env)
+├─ api/                 # Backend endpoints for live status
+├─ assets/              
+│  ├─ css/              # TailwindCSS output + Flowbite CSS
+│  ├─ js/               # main.js, Flowbite, ApexCharts
+│  └─ img/              # Favicons & other images
+├─ datenschutz.html     # Privacy policy
+├─ impressum.html       # Legal notice / imprint
+├─ index.html           # Main one-pager
+├─ package.json         # Node.js dependencies
+├─ package-lock.json    # Lockfile
+└─ .gitignore           # Ignored files (node_modules, .env)
 ```
 
 ---
@@ -47,12 +51,13 @@ Services displayed in the grid, e.g.:
 - Nextcloud, Home Assistant, UniFi Controller
 - Pi-hole
 
-#### Status indicators (color-coded):
+#### Status indicators:
 
-- 🟢 Up
-- 🟡 Partly
-- 🔴 Down
-- ⚪ Unknown
+Services are __color-coded__:
+- 🟢 Up - Online
+- 🟡 Partly - Partially available
+- 🔴 Down - Offline
+- ⚪ Unknown - Status Unknown
 
 ---
 
