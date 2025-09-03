@@ -361,7 +361,7 @@ function refreshAllCharts() {
     headerSelector: "#oil-header",
     changeSelector: "#oil-change",
     chartSelector: "#oil-chart",
-    last: 7,
+    last: 30,
     valuesPath: ["values"]
     });
 
@@ -373,7 +373,7 @@ function refreshAllCharts() {
     headerSelector: "#energy-header",
     changeSelector: "#energy-change",
     chartSelector: "#energy-chart",
-    last: 7
+    last: 30
     });
 
     // Petrol, z.B. e5
@@ -384,7 +384,7 @@ function refreshAllCharts() {
     headerSelector: "#petrol-header",
     changeSelector: "#petrol-change",
     chartSelector: "#petrol-chart",
-    last: 7
+    last: 30
     });
 
     // Bitcoin-Chart
@@ -395,7 +395,7 @@ function refreshAllCharts() {
     headerSelector: '#bitcoin-header',
     changeSelector: '#bitcoin-change',
     chartSelector: '#bitcoin-chart',
-    last: 7,
+    last: 30,
     formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
     colorUpDown: true
     });
