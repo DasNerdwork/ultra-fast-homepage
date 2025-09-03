@@ -18,7 +18,7 @@ SERVICES = {
     'mc-modpack': {'port': 25566, 'url': None},
     'musikbot': {'port': 8087, 'url': f"https://musik.{DOMAIN}"},
     'clashscout': {'port': None, 'url': "https://clashscout.com"},
-    'voidwatch': {'port': 8090, 'url': f"https://voidwatch.{DOMAIN}"},
+    'voidwatch': {'port': 8090, 'url': f"https://voidwatch.{DOMAIN}/health"},
     'pb-smetti': {'port': 25000, 'url': f"https://smetti.{DOMAIN}"},
     'pb-junky': {'port': 25001, 'url': f"https://junky.{DOMAIN}"},
     'pb-orphi': {'port': 25002, 'url': f"https://orphi.{DOMAIN}"},
