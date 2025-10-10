@@ -12,7 +12,7 @@ origins = [
 
 BASE_DIR = Path(__file__).resolve().parent
 
-app = FastAPI(docs_url=None, redoc_url=None, title="DasNerdWork.net - PriceData & Status API", version="1.0.0")
+app = FastAPI(docs_url=None, redoc_url=None, title="DasNerdwork.net | API & Status", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -39,7 +39,7 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 async def custom_swagger_ui():
     html = get_swagger_ui_html(
         openapi_url=app.openapi_url,
-        title=app.title + " - Swagger",
+        title=app.title + "",
         oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
         swagger_css_url="/static/swagger.css",
         swagger_js_url="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js",

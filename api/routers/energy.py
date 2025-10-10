@@ -1,35 +1,64 @@
 from fastapi import APIRouter, Query
-from datetime import date, timedelta
-from typing import Optional, List
-from api.utils.energy_fetch import fetch_energycharts_daily
 from pydantic import BaseModel
+from datetime import date
+import os
+import psycopg2
+from dotenv import load_dotenv
+from typing import List, Optional
+
+load_dotenv()
+
+DB_USER = os.getenv("PSQL_USER")
+DB_PASS = os.getenv("PSQL_PASS")
+DB_HOST = os.getenv("PSQL_HOST")
+DB_PORT = os.getenv("PSQL_PORT")
+DB_NAME = os.getenv("PSQL_DB")
+DB_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 router = APIRouter(tags=["Energy"])
 
-class EnergyPrice(BaseModel):
+class DailyEnergyPrice(BaseModel):
     date: date
-    price: float
+    price_ct_per_kwh: float
 
-@router.get("", response_model=List[EnergyPrice], summary="Get average daily energy prices for the last X days")
-async def get_energy_prices(
-    last: int = Query(
-        7,
-        title="Number of days",
-        description="Number of most recent days to fetch average energy prices for.",
+def get_conn():
+    return psycopg2.connect(DB_URL)
+
+@router.get("", response_model=List[DailyEnergyPrice], summary="Get daily average energy prices")
+def get_energy_prices(
+    last: Optional[int] = Query(
+        None,
         ge=1,
         le=90,
-        examples=[1, 7, 30, 90],
-        deprecated=False,
-        json_schema_extra={
-            "defaultExplanation": "If not provided, defaults to 7 days."
-        }
+        description="Number of most recent days (max 90)",
+        example=7
     )
 ):
-    today = date.today()
-    start = today - timedelta(days=last)
+    conn = get_conn()
+    cur = conn.cursor()
 
-    df = fetch_energycharts_daily(start.isoformat(), today.isoformat())
+    query = "SELECT date, price_ct_per_kwh FROM energy_prices_daily"
+    params = []
 
-    df = df.tail(last)
+    if last is not None:
+        query += " ORDER BY date DESC LIMIT %s"
+        params.append(last)
+    else:
+        query += " ORDER BY date ASC"
 
-    return df.to_dict(orient="records")
+    cur.execute(query, tuple(params))
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    # if limited, reverse to chronological order
+    if last is not None:
+        rows = list(reversed(rows))
+
+    return [
+        DailyEnergyPrice(
+            date=r[0],
+            price_ct_per_kwh=float(r[1])
+        )
+        for r in rows
+    ]

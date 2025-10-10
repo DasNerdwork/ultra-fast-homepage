@@ -49,18 +49,17 @@ link.addEventListener('click', e => {
     if (dropdown.id.includes('oil')) {
     renderApiChart({
         apiPath: `${API_BASE}/oil`,
-        valueKey: "value",
+        valueKey: "price_eur",
         chartTitle: "Heizölpreis",
         headerSelector: "#oil-header",
         changeSelector: "#oil-change",
         chartSelector: "#oil-chart",
         last: parseInt(selected.match(/\d+/)[0]),
-        valuesPath: ["values"]
     });
     } else if (dropdown.id.includes('energy')) {
     renderApiChart({
         apiPath: `${API_BASE}/energy`,
-        valueKey: "price",
+        valueKey: "price_ct_per_kwh",
         chartTitle: "Strompreis",
         headerSelector: "#energy-header",
         changeSelector: "#energy-change",
@@ -228,7 +227,7 @@ return new Intl.NumberFormat("de-DE", {
 /**
  * Generischer Chart-Renderer für beliebige APIs
  * @param {string} apiPath - z.B. "/v1/oil"
- * @param {string} valueKey - Feldname im JSON, z.B. "value", "price", "e5"
+ * @param {string} valueKey - Feldname im JSON, z.B. "price_eur", "price", "e5"
  * @param {string} chartTitle - Titel der Serie im Chart
  * @param {string} headerSelector - Selector für Headerbereich, optional
  * @param {string} chartSelector - Selector für Chart-Container
@@ -356,19 +355,18 @@ function refreshAllCharts() {
     // Heizöl
     renderApiChart({
     apiPath: `${API_BASE}/oil`,
-    valueKey: "value",
+    valueKey: "price_eur",
     chartTitle: "Heizölpreis",
     headerSelector: "#oil-header",
     changeSelector: "#oil-change",
     chartSelector: "#oil-chart",
     last: 30,
-    valuesPath: ["values"]
     });
 
     // Energy
     renderApiChart({
     apiPath: `${API_BASE}/energy`,
-    valueKey: "price",
+    valueKey: "price_ct_per_kwh",
     chartTitle: "Strompreis",
     headerSelector: "#energy-header",
     changeSelector: "#energy-change",
