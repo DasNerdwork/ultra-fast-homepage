@@ -3,22 +3,22 @@ const grid = document.getElementById('status-grid');
 const raw = document.getElementById('raw');
 // Liste der Services
 const services = [
-{ id: "teamspeak", name: "Teamspeak" },
+{ id: "teamspeak", name: "Teamspeak", url: "https://invite.teamspeak.com/dasnerdwork.net" },
 { id: "mc-vanilla", name: "MC Vanilla" },
-{ id: "musikbot", name: "Musikbot" },
-{ id: "clashscout", name: "Clashscout" },
-{ id: "voidwatch", name: "Voidwatch" },
-{ id: "pb-smetti", name: "Pb Smetti" },
-{ id: "pb-junky", name: "Pb Junky" },
-{ id: "pb-orphi", name: "Pb Orphi" },
-{ id: "pb-snacky", name: "Pb Snacky" },
-{ id: "nextcloud", name: "Nextcloud" },
-{ id: "homeassistant", name: "Homeassistant" },
-{ id: "unifi", name: "Unifi" },
-{ id: "pihole", name: "Pihole" },
+{ id: "musikbot", name: "Musikbot", url: "https://musik.dasnerdwork.net"  },
+{ id: "clashscout", name: "Clashscout", url: "https://clashscout.com" },
+{ id: "voidwatch", name: "Voidwatch", url: "https://voidwatch.dasnerdwork.net" }, 
+{ id: "pb-smetti", name: "Pb Smetti", url: "https://smetti.dasnerdwork.net" },
+{ id: "pb-junky", name: "Pb Junky", url: "https://junky.dasnerdwork.net" },
+{ id: "pb-orphi", name: "Pb Orphi", url: "https://orphi.dasnerdwork.net" },
+{ id: "pb-snacky", name: "Pb Snacky", url: "https://snacky.dasnerdwork.net" },
+{ id: "nextcloud", name: "Nextcloud", url: "https://cloud.dasnerdwork.net" },
+{ id: "homeassistant", name: "Homeassistant", url: "https://home.dasnerdwork.net" },
+{ id: "unifi", name: "Unifi", url: "https://unifi.dasnerdwork.net" },
+{ id: "pihole", name: "Pihole", url: "https://pi.dasnerdwork.net/admin" },
 { id: "satisfactory", name: "Satisfactory" },
 { id: "gmod", name: "Gmod" },
-{ id: "mc-modpack", name: "MC Modpack" }
+{ id: "netdata", name: "Netdata", url: "https://data.dasnerdwork.net" },
 ];
 
 services.forEach(svc => {
@@ -108,9 +108,9 @@ function badgeStatus(status) {
 // default: return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200">● Unknown</span>';
 
 // Karte für einen Service rendern
-function renderCard(name, id, data) {
+function renderCard(name, id, data, url = null) {
 const el = document.createElement('article');
-el.className = 'rounded-2xl p-4';
+el.className = 'rounded-2xl p-4 opacity-0 translate-y-2 transition-all duration-500';
 
 let serviceStatus = deriveStatus(data);
 
@@ -145,7 +145,16 @@ if (data.instances) {
     html += `<div class="mt-2 text-sm text-text/70 dark:text-text/40">${details.join(' | ')}</div>`;
 }
 
-el.innerHTML = html;
+    if (url) {
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = "_blank";
+        link.className = "block hover:opacity-80 transition-opacity";
+        link.innerHTML = html;
+        el.appendChild(link);
+    } else {
+        el.innerHTML = html;
+    }
 return el;
 }
 
@@ -169,32 +178,41 @@ return 'yellow'; // unbekannt / keine Daten
 
 // Status laden
 async function loadStatus() {
-try {
-    const res = await fetch(`${API_BASE}/status`);
-    const json = await res.json();
+    try {
+        const res = await fetch(`${API_BASE}/status`);
+        const json = await res.json();
 
-    // Debug
-    raw.textContent = JSON.stringify(json, null, 2);
+        raw.textContent = JSON.stringify(json, null, 2);
 
-    // Grid leeren
-    grid.innerHTML = '';
+        const sortedServices = [...services].sort((a, b) => {
+            const statusA = deriveStatus(json[a.id]) ?? "yellow";
+            const statusB = deriveStatus(json[b.id]) ?? "yellow";
+            const order = { green: 1, yellow: 2, red: 3 };
+            if (order[statusA] !== order[statusB]) return order[statusA] - order[statusB];
+            return services.findIndex(s => s.id === a.id) - services.findIndex(s => s.id === b.id);
+        });
 
-    // Sortieren: offline = rot → zuletzt
-    const entries = Object.entries(json).sort(([idA, dataA], [idB, dataB]) => {
-    const statusOrder = { green: 1, yellow: 2, red: 3, null: 2 }; // null = unknown
-    const statusA = deriveStatus(dataA) ?? 'yellow';
-    const statusB = deriveStatus(dataB) ?? 'yellow';
-    return statusOrder[statusA] - statusOrder[statusB];
-    });
+        sortedServices.forEach((svc, i) => {
+            const data = json[svc.id] || {};
+            const el = document.getElementById(`card-${svc.id}`);
 
-    // Für jeden Service eine Card erzeugen
-    entries.forEach(([id, data]) => {
-    const name = id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    grid.appendChild(renderCard(name, id, data));
-    });
-} catch (err) {
-    console.error("Fehler beim Laden des Status:", err);
-}
+            if (!el) return; // Sicherheitscheck
+
+            setTimeout(() => {
+                // Inhalt überschreiben
+                el.innerHTML = renderCard(svc.name, svc.id, data, svc.url).innerHTML;
+                el.classList.remove('animate-pulse');
+
+                // Position im Grid korrekt halten
+                const nextSibling = grid.children[i];
+                if (nextSibling !== el) {
+                    grid.insertBefore(el, nextSibling);
+                }
+            }, i * 25); // Delay kaskadierend
+        });
+    } catch (err) {
+        console.error("Fehler beim Laden des Status:", err);
+    }
 }
 
 // Initialer Load + Auto-Refresh
@@ -207,7 +225,9 @@ document.getElementById("year").textContent = new Date().getFullYear();
 function cardSkeleton(svc) {
 const el = document.createElement('article');
 el.id = `card-${svc.id}`;
-el.className = 'min-h-[84px] rounded-2xl p-4 animate-pulse';
+let classes = 'min-h-[84px] rounded-2xl p-4 animate-pulse transition-all transition-transform transform duration-300';
+svc.url ? classes += ' hover:scale-105' : classes += ' cursor-not-allowed';
+el.className = classes;
 el.innerHTML = `
     <div class="h-4 w-28 bg-zinc-200 dark:bg-zinc-800 rounded mb-2"></div>
     <div class="h-3 w-20 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
