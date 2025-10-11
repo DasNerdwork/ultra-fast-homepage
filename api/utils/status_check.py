@@ -12,21 +12,21 @@ HA_TOKEN = os.getenv("HA_TOKEN")
 # Services definieren
 SERVICES = {
     'teamspeak': {'port': 10011, 'url': None},
-    'musikbot': {'port': 8087, 'url': f"https://musik.{DOMAIN}"},
-    'clashscout': {'port': None, 'url': "https://clashscout.com"},
+    'musikbot': {'port': 8087, 'url': f"https://musik.{DOMAIN}/health"},
+    'clashscout': {'port': None, 'url': "https://clashscout.com/health"},
     'voidwatch': {'port': 8090, 'url': f"https://voidwatch.{DOMAIN}/health"},
-    'nextcloud': {'port': None, 'url': f"https://cloud.{DOMAIN}"},
-    'unifi': {'port': 8443, 'url': f"https://unifi.{DOMAIN}"},
-    'homeassistant': {'port': 8123, 'url': f"https://home.{DOMAIN}/api/"},
-    'pihole': {'port': 88, 'url': f"https://pi.{DOMAIN}"},
+    'nextcloud': {'port': None, 'url': f"https://cloud.{DOMAIN}/health"},
+    'unifi': {'port': 8443, 'url': f"https://unifi.{DOMAIN}/health"},
+    'homeassistant': {'port': 8123, 'url': f"https://home.{DOMAIN}/health"},
+    'pihole': {'port': 88, 'url': f"https://pi.{DOMAIN}/health"},
     'netdata': {'port': 19999, 'url': f"https://data.{DOMAIN}/health"},
     'satisfactory': {'port': 15777, 'url': None},
     'gmod': {'port': 27015, 'url': None},
     'mc-vanilla': {'port': 25565, 'url': None},
-    'pb-smetti': {'port': 25000, 'url': f"https://smetti.{DOMAIN}"},
-    'pb-junky': {'port': 25001, 'url': f"https://junky.{DOMAIN}"},
-    'pb-orphi': {'port': 25002, 'url': f"https://orphi.{DOMAIN}"},
-    'pb-snacky': {'port': 25003, 'url': f"https://snacky.{DOMAIN}"},
+    'pb-smetti': {'port': 25000, 'url': f"https://smetti.{DOMAIN}/health"},
+    'pb-junky': {'port': 25001, 'url': f"https://junky.{DOMAIN}/health"},
+    'pb-orphi': {'port': 25002, 'url': f"https://orphi.{DOMAIN}/health"},
+    'pb-snacky': {'port': 25003, 'url': f"https://snacky.{DOMAIN}/health"},
 }
 
 def check_tcp(host: str, port: Optional[int], timeout=2):

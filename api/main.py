@@ -1,7 +1,7 @@
 from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from api.routers import energy, oil, petrol, btc, status
+from api.routers import energy, oil, petrol, btc, status, etfs
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -29,6 +29,7 @@ app.include_router(energy.router, prefix=f"{api_version}/energy", tags=["Energy"
 app.include_router(oil.router, prefix=f"{api_version}/oil", tags=["Oil"])
 app.include_router(petrol.router, prefix=f"{api_version}/petrol", tags=["Petrol"])
 app.include_router(btc.router, prefix=f"{api_version}/btc", tags=["Bitcoin"])
+app.include_router(etfs.router, prefix=f"{api_version}/etfs", tags=["ETFs"])
 app.include_router(status.router, prefix=f"{api_version}/status", tags=["Status"])
 
 # Static-Files (HTML, CSS, JS)
