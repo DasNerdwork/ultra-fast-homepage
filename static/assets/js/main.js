@@ -47,47 +47,48 @@ link.addEventListener('click', e => {
 
     // Hier den Chart neu rendern
     if (dropdown.id.includes('oil')) {
-    renderApiChart({
-        apiPath: `${API_BASE}/oil`,
-        valueKey: "price_eur",
-        chartTitle: "Heizölpreis",
-        headerSelector: "#oil-header",
-        changeSelector: "#oil-change",
-        chartSelector: "#oil-chart",
-        last: parseInt(selected.match(/\d+/)[0]),
-    });
-    } else if (dropdown.id.includes('energy')) {
-    renderApiChart({
-        apiPath: `${API_BASE}/energy`,
-        valueKey: "price_ct_per_kwh",
-        chartTitle: "Strompreis",
-        headerSelector: "#energy-header",
-        changeSelector: "#energy-change",
-        chartSelector: "#energy-chart",
-        last: parseInt(selected.match(/\d+/)[0])
-    });
+        renderApiChart({
+            apiPath: `${API_BASE}/oil`,
+            valueKey: "price_eur",
+            chartTitle: "Heizölpreis",
+            headerSelector: "#oil-header",
+            changeSelector: "#oil-change",
+            chartSelector: "#oil-chart",
+            last: parseInt(selected.match(/\d+/)[0]),
+        });
+    } else if (dropdown.id.includes('etf')) {
+        renderApiChart({
+            apiPath: `${API_BASE}/etfs/spdr`,
+            valueKey: "price_eur",
+            chartTitle: "SPDR MSCI World (Acc)",
+            headerSelector: "#etf-header",
+            changeSelector: "#etf-change",
+            chartSelector: "#etf-chart",
+            last: parseInt(selected.match(/\d+/)[0]),
+            formatValue: (val) => formatEuro(val, 2)
+        });
     } else if (dropdown.id.includes('petrol')) {
-    renderApiChart({
-        apiPath: `${API_BASE}/petrol`,
-        valueKey: "e5",
-        chartTitle: "Benzinpreis",
-        headerSelector: "#petrol-header",
-        changeSelector: "#petrol-change",
-        chartSelector: "#petrol-chart",
-        last: parseInt(selected.match(/\d+/)[0])
-    });
+        renderApiChart({
+            apiPath: `${API_BASE}/petrol`,
+            valueKey: "e5",
+            chartTitle: "Benzinpreis",
+            headerSelector: "#petrol-header",
+            changeSelector: "#petrol-change",
+            chartSelector: "#petrol-chart",
+            last: parseInt(selected.match(/\d+/)[0])
+        });
     } else if (dropdown.id.includes('bitcoin')) {
-    renderApiChart({
-        apiPath: `${API_BASE}/btc`,
-        valueKey: "price_eur",
-        chartTitle: "Bitcoinpreis",
-        headerSelector: "#bitcoin-header",
-        changeSelector: "#bitcoin-change",
-        chartSelector: "#bitcoin-chart",
-        last: parseInt(selected.match(/\d+/)[0]),
-        formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
-        colorUpDown: true
-    });
+        renderApiChart({
+            apiPath: `${API_BASE}/btc`,
+            valueKey: "price_eur",
+            chartTitle: "Bitcoinpreis",
+            headerSelector: "#bitcoin-header",
+            changeSelector: "#bitcoin-change",
+            chartSelector: "#bitcoin-chart",
+            last: parseInt(selected.match(/\d+/)[0]),
+            formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
+            colorUpDown: true
+        });
     }
 });
 });
@@ -299,15 +300,13 @@ try {
     if (changeSelector) {
     const changeEl = document.querySelector(changeSelector);
     if (changeEl) {
-        const isBitcoin = changeSelector === '#bitcoin-change';
-        // Up/Down Farbe für Bitcoin umkehren
         let upClass, downClass;
-        if (isBitcoin) {
-            upClass = 'text-green-500';   // Bitcoin ↑ = grün
-            downClass = 'text-red-400';   // Bitcoin ↓ = rot
+        if (chartSelector === "#bitcoin-chart" || chartSelector === "#etf-chart") {
+            upClass = 'text-green-500';
+            downClass = 'text-red-400';
         } else {
-            upClass = 'text-red-400';     // normal ↑ = rot
-            downClass = 'text-green-500'; // normal ↓ = grün
+            upClass = 'text-red-400';     
+            downClass = 'text-green-500'; 
         }
         const isUp = changePercent >= 0;
         changeEl.innerHTML = `
@@ -374,48 +373,61 @@ try {
 function refreshAllCharts() {
     // Heizöl
     renderApiChart({
-    apiPath: `${API_BASE}/oil`,
-    valueKey: "price_eur",
-    chartTitle: "Heizölpreis",
-    headerSelector: "#oil-header",
-    changeSelector: "#oil-change",
-    chartSelector: "#oil-chart",
-    last: 30,
+        apiPath: `${API_BASE}/oil`,
+        valueKey: "price_eur",
+        chartTitle: "Heizölpreis",
+        headerSelector: "#oil-header",
+        changeSelector: "#oil-change",
+        chartSelector: "#oil-chart",
+        last: 30,
     });
 
     // Energy
+    // renderApiChart({
+    // apiPath: `${API_BASE}/energy`,
+    // valueKey: "price_ct_per_kwh",
+    // chartTitle: "Strompreis",
+    // headerSelector: "#energy-header",
+    // changeSelector: "#energy-change",
+    // chartSelector: "#energy-chart",
+    // last: 30
+    // });
+
+    // ETFS
     renderApiChart({
-    apiPath: `${API_BASE}/energy`,
-    valueKey: "price_ct_per_kwh",
-    chartTitle: "Strompreis",
-    headerSelector: "#energy-header",
-    changeSelector: "#energy-change",
-    chartSelector: "#energy-chart",
-    last: 30
+        apiPath: `${API_BASE}/etfs/spdr`,  // dein FastAPI-Endpunkt
+        valueKey: "price_eur",
+        chartTitle: "SPDR MSCI World (Acc)",
+        headerSelector: "#etf-header",
+        changeSelector: "#etf-change",
+        chartSelector: "#etf-chart",
+        last: 90,
+        formatValue: (val) => formatEuro(val, 2)
     });
+
 
     // Petrol, z.B. e5
     renderApiChart({
-    apiPath: `${API_BASE}/petrol`,
-    valueKey: "e5",
-    chartTitle: "Benzinpreis",
-    headerSelector: "#petrol-header",
-    changeSelector: "#petrol-change",
-    chartSelector: "#petrol-chart",
-    last: 30
+        apiPath: `${API_BASE}/petrol`,
+        valueKey: "e5",
+        chartTitle: "Benzinpreis",
+        headerSelector: "#petrol-header",
+        changeSelector: "#petrol-change",
+        chartSelector: "#petrol-chart",
+        last: 30
     });
 
     // Bitcoin-Chart
     renderApiChart({
-    apiPath: `${API_BASE}/btc`,
-    valueKey: 'price_eur', // wir wandeln die API um
-    chartTitle: 'Bitcoin (EUR)',
-    headerSelector: '#bitcoin-header',
-    changeSelector: '#bitcoin-change',
-    chartSelector: '#bitcoin-chart',
-    last: 30,
-    formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
-    colorUpDown: true
+        apiPath: `${API_BASE}/btc`,
+        valueKey: 'price_eur', // wir wandeln die API um
+        chartTitle: 'Bitcoin (EUR)',
+        headerSelector: '#bitcoin-header',
+        changeSelector: '#bitcoin-change',
+        chartSelector: '#bitcoin-chart',
+        last: 30,
+        formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
+        colorUpDown: true
     });
 }
 refreshAllCharts();
