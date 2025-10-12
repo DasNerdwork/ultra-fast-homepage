@@ -23,6 +23,7 @@ SERVICES = {
     'satisfactory': {'port': 15777, 'url': None},
     'gmod': {'port': 27015, 'url': None},
     'mc-vanilla': {'port': 25565, 'url': None},
+    'mc-modpack': {'port': 25566, 'url': None},
     'pb-smetti': {'port': 25000, 'url': f"https://smetti.{DOMAIN}/health"},
     'pb-junky': {'port': 25001, 'url': f"https://junky.{DOMAIN}/health"},
     'pb-orphi': {'port': 25002, 'url': f"https://orphi.{DOMAIN}/health"},

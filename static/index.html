@@ -57,9 +57,9 @@
             <!-- Skeleton Cards for visual interest -->
             <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
               <div class="flex flex-col sm:flex-row sm:justify-between">
-                <div id="oil-header" class="flex flex-col">
+                <div id="oil-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
-                  <p class="text-base font-normal text-text/60 dark:text-text/40">Heizöl (pro 100 L)</p>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">Heizöl (pro 100 L)</p>
                 </div>
                 <div id="oil-change"
                   class="flex items-center justify-end sm:justify-center p-0 text-base font-semibold text-green-500 dark:text-green-500 text-center">
@@ -72,25 +72,27 @@
               <div id="oil-chart" class="h-[75px]"></div>
               <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
                 <div class="flex justify-between items-center pt-5">
-                  <!-- Button -->
-                  <button
-                    id="dropdownButtonOil"
-                    data-dropdown-toggle="lastDaysdropdown-oil"
-                    data-dropdown-placement="bottom"
-                    class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
-                    type="button">
-                    <span class="dropdown-text">Last 30 days</span>
-                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div id="lastDaysdropdown-oil" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
-                    <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonOil">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
-                    </ul>
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="dropdownButtonOil"
+                      data-dropdown-toggle="lastDaysdropdown-oil"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Last 30 days</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="lastDaysdropdown-oil" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonOil">
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -98,9 +100,9 @@
             <!-- Cards for visual interest -->
             <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
               <div class="flex flex-col sm:flex-row sm:justify-between">
-                <div id="etf-header" class="flex flex-col">
+                <div id="etf-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
-                  <p class="text-base font-normal text-text/60 dark:text-text/40">SPDR MSCI World</p>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">SPDR MSCI World</p>
                 </div>
                 <div id="etf-change"
                   class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
@@ -113,25 +115,49 @@
               <div id="etf-chart" class="h-[75px]"></div>
               <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
                 <div class="flex justify-between items-center pt-5">
-                  <!-- Button -->
-                  <button
-                    id="dropdownButtonEtf"
-                    data-dropdown-toggle="lastDaysdropdown-etf"
-                    data-dropdown-placement="bottom"
-                    class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
-                    type="button">
-                    <span class="dropdown-text">Last 90 days</span>
-                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div id="lastDaysdropdown-etf" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
-                    <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonEtf">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
-                    </ul>
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="dropdownButtonEtf"
+                      data-dropdown-toggle="lastDaysdropdown-etf"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Last 90 days</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="lastDaysdropdown-etf" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonEtf">
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="choiceDropdownButtonEtf"
+                      data-dropdown-toggle="choiceDropdown-etf"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">SPPW.DE</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="choiceDropdown-etf" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="choiceDropdownButtonEtf">
+                        <li><a href="#" data-ticker="SPPW.DE" class="block px-4 py-2 hover:bg-[#1C64F2]">SPDR MSCI World</a></li>
+                        <li><a href="#" data-ticker="SMH.DE" class="block px-4 py-2 hover:bg-[#1C64F2]">VanEck Semiconductor</a></li=>
+                        <li><a href="#" data-ticker="XDWD.DE" class="block px-4 py-2 hover:bg-[#1C64F2]">Xtrackers MSCI World</a></li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -139,9 +165,9 @@
             <!-- Cards for visual interest -->
             <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
               <div class="flex flex-col sm:flex-row sm:justify-between">
-                <div id="petrol-header" class="flex flex-col">
+                <div id="petrol-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
-                  <p class="text-base font-normal text-text/60 dark:text-text/40">Benzin (pro L)</p>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">Benzin (pro L)</p>
                 </div>
                 <div id="petrol-change"
                   class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
@@ -154,34 +180,36 @@
               <div id="petrol-chart" class="h-[75px]"></div>
               <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
                 <div class="flex justify-between items-center pt-5">
-                  <!-- Button -->
-                  <button
-                    id="dropdownButtonPetrol"
-                    data-dropdown-toggle="lastDaysdropdown-petrol"
-                    data-dropdown-placement="bottom"
-                    class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
-                    type="button">
-                    <span class="dropdown-text">Last 30 days</span>
-                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div id="lastDaysdropdown-petrol" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
-                    <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonPetrol">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
-                    </ul>
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="dropdownButtonPetrol"
+                      data-dropdown-toggle="lastDaysdropdown-petrol"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Last 30 days</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="lastDaysdropdown-petrol" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonPetrol">
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
               <div class="flex flex-col sm:flex-row sm:justify-between">
-                <div id="bitcoin-header" class="flex flex-col">
+                <div id="bitcoin-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
-                  <p class="text-base font-normal text-text/60 dark:text-text/40">Bitcoin (EUR)</p>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">Bitcoin (EUR)</p>
                 </div>
                 <div id="bitcoin-change"
                   class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
@@ -194,23 +222,26 @@
               <div id="bitcoin-chart" class="h-[75px]"></div>
               <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
                 <div class="flex justify-between items-center pt-5">
-                  <button
-                    id="dropdownButtonBitcoin"
-                    data-dropdown-toggle="lastDaysdropdown-bitcoin"
-                    data-dropdown-placement="bottom"
-                    class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
-                    type="button">
-                    <span class="dropdown-text">Last 30 days</span>
-                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                    </svg>
-                  </button>
-                  <div id="lastDaysdropdown-bitcoin" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
-                    <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonBitcoin">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
-                    </ul>
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="dropdownButtonBitcoin"
+                      data-dropdown-toggle="lastDaysdropdown-bitcoin"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Last 30 days</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <div id="lastDaysdropdown-bitcoin" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonBitcoin">
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
+                        <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -221,7 +252,7 @@
     </section>
 
     <!-- Status Grid -->
-    <section id="status" class="mx-auto max-w-6xl px-4 py-6 sm:!py-12 bg-base">
+    <section id="status" class="mx-auto max-w-6xl px-4 py-6 bg-base">
       <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Live Server & API Status</h2>
       <p class="mt-2 text-sm text-text/70 dark:text-text/40">Laufende Überwachung aller Dienste - Online- und Ausfallstatus in Echtzeit.</p>
 
