@@ -317,7 +317,7 @@ try {
         </svg>
         `;
         changeEl.className =
-        `flex items-center px-2.5 py-0.5 text-base font-semibold ${isUp ? upClass : downClass} text-center`;
+        `flex items-center p-0 text-base font-semibold ${isUp ? upClass : downClass} text-center`;
     }
     }
 

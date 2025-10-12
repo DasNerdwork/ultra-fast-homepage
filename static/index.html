@@ -43,12 +43,12 @@
   <main class="transition-colors duration-300 ease-in-out">
     <!-- Hero -->
     <section class="relative isolate overflow-hidden bg-base">
-      <div class="mx-auto max-w-6xl px-4 py-16 sm:py-20">
+      <div class="mx-auto max-w-6xl sm:!pt-16 sm:!pb-8 px-4 pt-8 pb-4">
         <div class="grid md:grid-cols-2 items-center gap-10">
-          <div>
+          <div class="sm:!text-left text-center">
             <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">Ein maximal schneller One-Pager, <span class="text-primary dark:text-[#2281c8]">ohne Framework</span>.</h1>
             <p class="mt-4 text-text/70 dark:text-text/60 max-w-prose">Live-Status der DasNerdwork.net Server & APIs, ultraschnelles First Paint, minimaler JS-Overhead, schnellstmöglicher Side-Load.</p>
-            <div class="mt-6 flex gap-3">
+            <div class="mt-6 flex gap-3 sm:!justify-start justify-center">
               <a href="https://github.com/DasNerdwork/ultra-fast-homepage" class="inline-flex items-center rounded-2xl bg-primary px-4 py-2 text-white font-medium shadow-sm hover:bg-primary/80 transition">GitHub Code</a>
               <a href="https://api.dasnerdwork.net/docs" class="font-semibold inline-flex items-center rounded-2xl border-2 px-4 py-2 border-text/30 dark:border-text/50 hover:bg-base/20 dark:hover:bg-base/80">API Dokumentation</a>
             </div>
@@ -56,13 +56,13 @@
           <div class="grid grid-cols-2 gap-4">
             <!-- Skeleton Cards for visual interest -->
             <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
-              <div class="flex justify-between">
-                <div id="oil-header">
-                  <span class="leading-none text-3xl font-bold text-text dark:text-text pb-2">--</span>
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div id="oil-header" class="flex flex-col">
+                  <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
                   <p class="text-base font-normal text-text/60 dark:text-text/40">Heizöl (pro 100 L)</p>
                 </div>
                 <div id="oil-change"
-                  class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  class="flex items-center justify-end sm:justify-center p-0 text-base font-semibold text-green-500 dark:text-green-500 text-center">
                   --%
                   <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
@@ -85,11 +85,11 @@
                     </svg>
                   </button>
                   <!-- Dropdown menu -->
-                  <div id="lastDaysdropdown-oil" class="z-10 hidden bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                  <div id="lastDaysdropdown-oil" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
                     <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonOil">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 7 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 30 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 90 days</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
                     </ul>
                   </div>
                 </div>
@@ -97,9 +97,9 @@
             </div>
             <!-- Cards for visual interest -->
             <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
-              <div class="flex justify-between">
-                <div id="etf-header">
-                  <span class="leading-none text-3xl font-bold text-text dark:text-text pb-2">--</span>
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div id="etf-header" class="flex flex-col">
+                  <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
                   <p class="text-base font-normal text-text/60 dark:text-text/40">SPDR MSCI World</p>
                 </div>
                 <div id="etf-change"
@@ -126,11 +126,11 @@
                     </svg>
                   </button>
                   <!-- Dropdown menu -->
-                  <div id="lastDaysdropdown-etf" class="z-10 hidden bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                  <div id="lastDaysdropdown-etf" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
                     <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonEtf">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 7 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 30 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 90 days</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
                     </ul>
                   </div>
                 </div>
@@ -138,9 +138,9 @@
             </div>
             <!-- Cards for visual interest -->
             <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
-              <div class="flex justify-between">
-                <div id="petrol-header">
-                  <span class="leading-none text-3xl font-bold text-text dark:text-text pb-2">--</span>
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div id="petrol-header" class="flex flex-col">
+                  <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
                   <p class="text-base font-normal text-text/60 dark:text-text/40">Benzin (pro L)</p>
                 </div>
                 <div id="petrol-change"
@@ -167,20 +167,20 @@
                     </svg>
                   </button>
                   <!-- Dropdown menu -->
-                  <div id="lastDaysdropdown-petrol" class="z-10 hidden bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                  <div id="lastDaysdropdown-petrol" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
                     <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonPetrol">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 7 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 30 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 90 days</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
             <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
-              <div class="flex justify-between">
-                <div id="bitcoin-header">
-                  <span class="leading-none text-3xl font-bold text-text dark:text-text pb-2">--</span>
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div id="bitcoin-header" class="flex flex-col">
+                  <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
                   <p class="text-base font-normal text-text/60 dark:text-text/40">Bitcoin (EUR)</p>
                 </div>
                 <div id="bitcoin-change"
@@ -205,11 +205,11 @@
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                     </svg>
                   </button>
-                  <div id="lastDaysdropdown-bitcoin" class="z-10 hidden bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                  <div id="lastDaysdropdown-bitcoin" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
                     <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonBitcoin">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 7 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 30 days</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-card/20 dark:hover:bg-card/80 dark:hover:text-text">Last 90 days</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 7 days</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 30 days</a></li=>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-[#1C64F2]">Last 90 days</a></li>
                     </ul>
                   </div>
                 </div>
@@ -221,7 +221,7 @@
     </section>
 
     <!-- Status Grid -->
-    <section id="status" class="mx-auto max-w-6xl px-4 py-12 bg-base">
+    <section id="status" class="mx-auto max-w-6xl px-4 py-6 sm:!py-12 bg-base">
       <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Live Server & API Status</h2>
       <p class="mt-2 text-sm text-text/70 dark:text-text/40">Laufende Überwachung aller Dienste - Online- und Ausfallstatus in Echtzeit.</p>
 
