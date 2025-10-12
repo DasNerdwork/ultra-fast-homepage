@@ -152,9 +152,9 @@
                     <!-- Dropdown menu -->
                     <div id="choiceDropdown-etf" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
                       <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="choiceDropdownButtonEtf">
-                        <li><a href="#" data-ticker="SPPW.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">SPDR MSCI World</a></li>
-                        <li><a href="#" data-ticker="SMH.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">VanEck Semiconductor</a></li=>
-                        <li><a href="#" data-ticker="XDWD.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Xtrackers MSCI World</a></li>
+                        <li><a href="#" data-path="SPPW.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">SPDR MSCI World</a></li>
+                        <li><a href="#" data-path="SMH.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">VanEck Semiconductor</a></li=>
+                        <li><a href="#" data-path="XDWD.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Xtrackers MSCI World</a></li>
                       </ul>
                     </div>
                   </div>
@@ -166,7 +166,7 @@
               <div class="flex flex-col sm:flex-row sm:justify-between">
                 <div id="petrol-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
-                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">Benzin (pro L)</p>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">Treibstoff (pro L)</p>
                 </div>
                 <div id="petrol-change"
                   class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
@@ -198,6 +198,28 @@
                         <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 7 days</a></li>
                         <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 30 days</a></li=>
                         <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 90 days</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="choiceDropdownButtonPetrol"
+                      data-dropdown-toggle="choiceDropdown-petrol"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Super 95</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="choiceDropdown-petrol" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="choiceDropdownButtonPetrol">
+                        <li><a href="#" data-path="e5" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Super 95</a></li>
+                        <li><a href="#" data-path="e10" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Super E10</a></li=>
+                        <li><a href="#" data-path="diesel" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Diesel</a></li>
                       </ul>
                     </div>
                   </div>

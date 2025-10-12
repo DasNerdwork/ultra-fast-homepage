@@ -8,8 +8,8 @@ const etfApiMap = {
 };
 let graphSettings = {
     oil: { lastDays: 30 },
-    etf: { lastDays: 90, ticker: "SPPW.DE" },
-    petrol: { lastDays: 30 },
+    etf: { lastDays: 90, path: "SPPW.DE" },
+    petrol: { lastDays: 30, path: "e5" },
     bitcoin: { lastDays: 30 }
 };
 // Liste der Services
@@ -74,9 +74,9 @@ document.querySelectorAll('[id^="lastDaysdropdown-"] a').forEach(link => {
         } else if (dropdown.id.includes('etf')) {
             graphSettings.etf.lastDays = parseInt(selected.match(/\d+/)[0]);
             renderApiChart({
-                apiPath: `${API_BASE}/etfs/${etfApiMap[graphSettings.etf.ticker].api}`,
+                apiPath: `${API_BASE}/etfs/${etfApiMap[graphSettings.etf.path].api}`,
                 valueKey: "price_eur",
-                chartTitle: etfApiMap[graphSettings.etf.ticker].name,
+                chartTitle: etfApiMap[graphSettings.etf.path].name,
                 headerSelector: "#etf-header",
                 changeSelector: "#etf-change",
                 chartSelector: "#etf-chart",
@@ -86,9 +86,9 @@ document.querySelectorAll('[id^="lastDaysdropdown-"] a').forEach(link => {
         } else if (dropdown.id.includes('petrol')) {
             graphSettings.petrol.lastDays = parseInt(selected.match(/\d+/)[0]);
             renderApiChart({
-                apiPath: `${API_BASE}/petrol`,
-                valueKey: "e5",
-                chartTitle: "Benzin (pro L)",
+                apiPath: `${API_BASE}/petrol/${graphSettings.petrol.path}`,
+                valueKey: "price",
+                chartTitle: "Treibstoff (pro L)",
                 headerSelector: "#petrol-header",
                 changeSelector: "#petrol-change",
                 chartSelector: "#petrol-chart",
@@ -115,29 +115,27 @@ document.querySelectorAll('[id^="lastDaysdropdown-"] a').forEach(link => {
 document.querySelectorAll('[id^="choiceDropdown-"] a').forEach(link => {
     link.addEventListener('click', e => {
         e.preventDefault(); // verhindert das Springen nach oben
-        const selectedTicker = link.dataset.ticker;
+        const selectedPath = link.dataset.path;
+        const selectedText = link.textContent.trim();
 
         // Dropdown-Button finden (über aria-labelledby)
         const dropdown = link.closest('div[id^="choiceDropdown-"]');
         const buttonId = link.closest('ul').getAttribute('aria-labelledby');
         const button = document.getElementById(buttonId);
-        if (button) {
-            const textSpan = button.querySelector('.dropdown-text');
-            if (textSpan) { 
-                textSpan.textContent = selectedTicker;
-            }
-        }
+        const textSpan = button?.querySelector('.dropdown-text');
         if (dropdown) {
             dropdown.classList.add('hidden');
         }
-        graphSettings.etf.ticker = selectedTicker;
+        
 
         // Hier den Chart neu rendern
         if (dropdown.id.includes('etf')) {
+            if (textSpan) textSpan.textContent = selectedPath;
+            graphSettings.etf.path = selectedPath;
             renderApiChart({
-                apiPath: `${API_BASE}/etfs/${etfApiMap[graphSettings.etf.ticker].api}`,
+                apiPath: `${API_BASE}/etfs/${etfApiMap[graphSettings.etf.path].api}`,
                 valueKey: "price_eur",
-                chartTitle: etfApiMap[graphSettings.etf.ticker].name,
+                chartTitle: etfApiMap[graphSettings.etf.path].name,
                 headerSelector: "#etf-header",
                 changeSelector: "#etf-change",
                 chartSelector: "#etf-chart",
@@ -145,10 +143,12 @@ document.querySelectorAll('[id^="choiceDropdown-"] a').forEach(link => {
                 formatValue: (val) => formatEuro(val, 2)
             });
         } else if (dropdown.id.includes('petrol')) {
+            if (textSpan) textSpan.textContent = selectedText;
+            graphSettings.petrol.path = selectedPath;
             renderApiChart({
-                apiPath: `${API_BASE}/petrol`,
-                valueKey: "e5",
-                chartTitle: "Benzin (pro L)",
+                apiPath: `${API_BASE}/petrol/${graphSettings.petrol.path}`,
+                valueKey: "price",
+                chartTitle: "Treibstoff (pro L)",
                 headerSelector: "#petrol-header",
                 changeSelector: "#petrol-change",
                 chartSelector: "#petrol-chart",
@@ -489,9 +489,9 @@ function refreshAllCharts() {
 
     // Petrol, z.B. e5
     renderApiChart({
-        apiPath: `${API_BASE}/petrol`,
-        valueKey: "e5",
-        chartTitle: "Benzin (pro L)",
+        apiPath: `${API_BASE}/petrol/${graphSettings.petrol.path}`,
+        valueKey: "price",
+        chartTitle: "Treibstoff (pro L)",
         headerSelector: "#petrol-header",
         changeSelector: "#petrol-change",
         chartSelector: "#petrol-chart",
