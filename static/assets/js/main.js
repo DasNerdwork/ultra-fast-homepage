@@ -6,12 +6,31 @@ const etfApiMap = {
     "SMH.DE":  { api: "vaneck", name: "VanEck Semiconductor" },
     "XDWD.DE": { api: "xtrackers", name: "Xtrackers MSCI World" }
 };
+
 let graphSettings = {
-    oil: { lastDays: 30 },
-    etf: { lastDays: 90, path: "SPPW.DE" },
-    petrol: { lastDays: 30, path: "e5" },
-    bitcoin: { lastDays: 30 }
-};
+        oil: { lastDays: 30 },
+        etf: { lastDays: 90, path: "SPPW.DE" },
+        petrol: { lastDays: 30, path: "e5" },
+        bitcoin: { lastDays: 30 }
+    };
+
+// const savedSettings = localStorage.getItem("graphSettings");
+// if (savedSettings) {
+//   try {
+//     graphSettings = JSON.parse(savedSettings);
+//   } catch (e) {
+//     console.warn("Fehler beim Laden gespeicherter Einstellungen:", e);
+//   }
+// } else {
+//     graphSettings = {
+//         oil: { lastDays: 30 },
+//         etf: { lastDays: 90, path: "SPPW.DE" },
+//         petrol: { lastDays: 30, path: "e5" },
+//         bitcoin: { lastDays: 30 }
+//     };
+// }
+
+
 // Liste der Services
 const services = [
 { id: "teamspeak", name: "Teamspeak", url: "https://invite.teamspeak.com/dasnerdwork.net" },
@@ -31,6 +50,7 @@ const services = [
 { id: "satisfactory", name: "Satisfactory" },
 { id: "gmod", name: "Gmod" },
 { id: "netdata", name: "Netdata", url: "https://data.dasnerdwork.net" },
+{ id: "n8n", name: "N8N", url: "https://n8n.dasnerdwork.net" },
 ];
 
 services.forEach(svc => {
@@ -108,6 +128,7 @@ document.querySelectorAll('[id^="lastDaysdropdown-"] a').forEach(link => {
                 colorUpDown: true
             });
         }
+        saveSettings();
     });
 });
 
@@ -167,6 +188,7 @@ document.querySelectorAll('[id^="choiceDropdown-"] a').forEach(link => {
                 colorUpDown: true
             });
         }
+        saveSettings();
     });
 });
 
@@ -460,7 +482,7 @@ function refreshAllCharts() {
         headerSelector: "#oil-header",
         changeSelector: "#oil-change",
         chartSelector: "#oil-chart",
-        last: 30,
+        last: graphSettings.oil.lastDays,
     });
 
     // Energy
@@ -476,13 +498,13 @@ function refreshAllCharts() {
 
     // ETFS
     renderApiChart({
-        apiPath: `${API_BASE}/etfs/spdr`,  // dein FastAPI-Endpunkt
+        apiPath: `${API_BASE}/etfs/${etfApiMap[graphSettings.etf.path].api}`,  // dein FastAPI-Endpunkt
         valueKey: "price_eur",
-        chartTitle: "SPDR MSCI World",
+        chartTitle: etfApiMap[graphSettings.etf.path].name,
         headerSelector: "#etf-header",
         changeSelector: "#etf-change",
         chartSelector: "#etf-chart",
-        last: 90,
+        last: graphSettings.etf.lastDays,
         formatValue: (val) => formatEuro(val, 2)
     });
 
@@ -495,7 +517,7 @@ function refreshAllCharts() {
         headerSelector: "#petrol-header",
         changeSelector: "#petrol-change",
         chartSelector: "#petrol-chart",
-        last: 30
+        last: graphSettings.petrol.lastDays
     });
 
     // Bitcoin-Chart
@@ -506,7 +528,7 @@ function refreshAllCharts() {
         headerSelector: '#bitcoin-header',
         changeSelector: '#bitcoin-change',
         chartSelector: '#bitcoin-chart',
-        last: 30,
+        last: graphSettings.bitcoin.lastDays,
         formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
         colorUpDown: true
     });
@@ -643,3 +665,8 @@ toggle.addEventListener('click', () => {
 
 updateUI();
 })();
+
+// function saveSettings() {
+//     console.log("Einstellungen gespeichert:", graphSettings);
+//   localStorage.setItem("graphSettings", JSON.stringify(graphSettings));
+// }

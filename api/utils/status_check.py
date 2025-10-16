@@ -20,6 +20,7 @@ SERVICES = {
     'homeassistant': {'port': 8123, 'url': f"https://home.{DOMAIN}/health"},
     'pihole': {'port': 88, 'url': f"https://pi.{DOMAIN}/health"},
     'netdata': {'port': 19999, 'url': f"https://data.{DOMAIN}/health"},
+    'n8n': {'port': 5678, 'url': f"https://n8n.{DOMAIN}/health"},
     'satisfactory': {'port': 15777, 'url': None},
     'gmod': {'port': 27015, 'url': None},
     'mc-vanilla': {'port': 25565, 'url': None},
