@@ -11,7 +11,7 @@ HA_TOKEN = os.getenv("HA_TOKEN")
 
 # Services definieren
 SERVICES = {
-    'teamspeak': {'port': 10011, 'url': None},
+    'teamspeak': {'port': 30033, 'url': None},
     'musikbot': {'port': 8087, 'url': f"https://musik.{DOMAIN}/health"},
     'clashscout': {'port': None, 'url': "https://clashscout.com/health"},
     'voidwatch': {'port': 8090, 'url': f"https://voidwatch.{DOMAIN}/health"},
