@@ -39,7 +39,6 @@ const services = [
 { id: "musikbot", name: "Musikbot", url: "https://musik.dasnerdwork.net"  },
 { id: "clashscout", name: "Clashscout", url: "https://clashscout.com" },
 { id: "voidwatch", name: "Voidwatch", url: "https://voidwatch.dasnerdwork.net" }, 
-{ id: "pb-smetti", name: "Pb Smetti", url: "https://smetti.dasnerdwork.net" },
 { id: "pb-junky", name: "Pb Junky", url: "https://junky.dasnerdwork.net" },
 { id: "pb-orphi", name: "Pb Orphi", url: "https://orphi.dasnerdwork.net" },
 { id: "pb-snacky", name: "Pb Snacky", url: "https://snacky.dasnerdwork.net" },
@@ -50,7 +49,6 @@ const services = [
 { id: "satisfactory", name: "Satisfactory" },
 { id: "gmod", name: "Gmod" },
 { id: "netdata", name: "Netdata", url: "https://data.dasnerdwork.net" },
-{ id: "n8n", name: "N8N", url: "https://n8n.dasnerdwork.net" },
 ];
 
 services.forEach(svc => {
