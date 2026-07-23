@@ -1,4 +1,5 @@
 import socket
+import time
 import requests
 from typing import Optional
 import os
@@ -10,6 +11,11 @@ DOMAIN = os.getenv("DOMAIN")
 HA_TOKEN = os.getenv("HA_TOKEN")
 
 # Services definieren
+# port  -> TCP-Check gegen localhost ("läuft der Prozess?")
+# url   -> HTTP-Check über die Domain/nginx ("funktioniert der Weg von außen?")
+# Hinweis: Dienste, die auf 127.0.0.1 gebunden sind (musikbot, voidwatch,
+# pihole, netdata), sind von außen bewusst nicht mehr erreichbar. Der
+# TCP-Check läuft deshalb lokal, der HTTP-Check weiterhin über nginx.
 SERVICES = {
     'teamspeak': {'port': 30033, 'url': None},
     'musikbot': {'port': 8087, 'url': f"https://musik.{DOMAIN}/health"},
@@ -20,7 +26,6 @@ SERVICES = {
     'homeassistant': {'port': 8123, 'url': f"https://home.{DOMAIN}/health"},
     'pihole': {'port': 88, 'url': f"https://pi.{DOMAIN}/health"},
     'netdata': {'port': 19999, 'url': f"https://data.{DOMAIN}/health"},
-    'n8n': {'port': 5678, 'url': f"https://n8n.{DOMAIN}/health"},
     'satisfactory': {'port': 15777, 'url': None},
     'gmod': {'port': 27015, 'url': None},
     'mc-vanilla': {'port': 25565, 'url': None},
@@ -31,17 +36,18 @@ SERVICES = {
     'pb-snacky': {'port': 25003, 'url': f"https://snacky.{DOMAIN}/health"},
 }
 
+
 def check_tcp(host: str, port: Optional[int], timeout=2):
     if port is None:
         return None
     try:
-        import time
         start = time.time()
         with socket.create_connection((host, port), timeout):
             ms = max(1, int((time.time() - start) * 1000))
             return {'ok': True, 'ms': ms}
-    except:
+    except OSError:
         return {'ok': False, 'ms': None}
+
 
 def check_http(url: Optional[str], headers=None, timeout=2, method="HEAD"):
     if url is None:
@@ -52,8 +58,25 @@ def check_http(url: Optional[str], headers=None, timeout=2, method="HEAD"):
         else:
             resp = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
         return {'ok': 200 <= resp.status_code < 400, 'httpStatus': resp.status_code}
-    except:
+    except requests.RequestException:
         return {'ok': False, 'httpStatus': None}
+
+
+def evaluate_status(http_res: Optional[dict], tcp_res: Optional[dict]) -> str:
+    """Bewertet die Check-Ergebnisse.
+
+    green  = alle durchgeführten Checks ok
+    yellow = mindestens ein Check ok, mindestens einer fehlgeschlagen
+    red    = alle durchgeführten Checks fehlgeschlagen (oder keiner definiert)
+    """
+    http_ok = http_res['ok'] if http_res is not None else None
+    tcp_ok = tcp_res['ok'] if tcp_res is not None else None
+    checks = [c for c in (http_ok, tcp_ok) if c is not None]
+    if not checks or all(c is False for c in checks):
+        return 'red'
+    if all(checks):
+        return 'green'
+    return 'yellow'
 
 
 def group_services(results: dict, prefix: str, label_map: Optional[dict] = None):
@@ -65,13 +88,14 @@ def group_services(results: dict, prefix: str, label_map: Optional[dict] = None)
             name = label_map.get(id, id.replace(f"{prefix}-", "").capitalize())
             group['instances'].append({'name': name, 'status': res['status']})
     statuses = [i['status'] for i in group['instances']]
-    if all(s == 'green' for s in statuses):
+    if statuses and all(s == 'green' for s in statuses):
         group['status'] = 'green'
-    elif 'red' in statuses:
-        group['status'] = 'yellow'
+    elif all(s == 'red' for s in statuses) and statuses:
+        group['status'] = 'red'
     else:
         group['status'] = 'yellow'
     return group
+
 
 def get_service_status(service_name: Optional[str] = None):
     results = {}
@@ -79,14 +103,14 @@ def get_service_status(service_name: Optional[str] = None):
         if service_name and service_name != id and not (service_name.startswith("pb") and id.startswith("pb")):
             continue
         headers = {"Authorization": f"Bearer {HA_TOKEN}"} if id == "homeassistant" else None
-        http_res = check_http(svc['url'], headers=headers, method="GET" if id=="homeassistant" else "HEAD")
-        tcp_res = check_tcp(DOMAIN, svc['port'])
-        status = 'green'
-        if ((http_res is False or http_res is None) and (tcp_res is False or tcp_res is None)):
-            status = 'red'
-        elif (http_res is False or tcp_res is False):
-            status = 'yellow'
-        results[id] = {'http': http_res, 'tcp': tcp_res, 'status': status}
+        http_res = check_http(svc['url'], headers=headers, method="GET" if id == "homeassistant" else "HEAD")
+        # TCP-Check lokal: misst, ob der Dienst auf dem Server läuft --
+        # unabhängig davon, ob der Port nach außen gebunden ist.
+        tcp_res = check_tcp("127.0.0.1", svc['port'])
+        results[id] = {
+            'http': http_res,
+            'tcp': tcp_res,
+            'status': evaluate_status(http_res, tcp_res),
+        }
 
     return results
-
