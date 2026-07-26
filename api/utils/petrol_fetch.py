@@ -1,11 +1,14 @@
 import os
 import requests
 import psycopg2
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo
+from pathlib import Path
 from dotenv import load_dotenv
-import random
 
-load_dotenv()
+# .env explizit aus dem Projekt-Hauptordner laden, damit das Script
+# auch im Cron-Kontext (cwd = /root) die Credentials findet
+load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
 
 DB_USER = os.getenv("PSQL_USER")
 DB_PASS = os.getenv("PSQL_PASS")
@@ -17,56 +20,37 @@ API_KEY = os.getenv("TANKERKOENIG_API_KEY")
 STATION_ID = os.getenv("TANKERKOENIG_STATION_ID")
 MAX_DAYS = 90
 
+TZ = ZoneInfo("Europe/Berlin")
+
+
+def is_after_noon() -> bool:
+    """Seit der 12-Uhr-Regel (April 2026) gibt es faktisch zwei
+    Preisphasen pro Tag: vor 12 Uhr (Tagestief) und ab 12 Uhr
+    (nach der einmalig erlaubten Erhöhung)."""
+    return datetime.now(TZ).hour >= 12
+
+
 def create_table_if_not_exists():
     conn = psycopg2.connect(DB_URL)
     cur = conn.cursor()
-
-    # Prüfen, ob Tabelle schon existiert
     cur.execute("""
-        SELECT EXISTS (
-            SELECT 1
-            FROM information_schema.tables 
-            WHERE table_name = 'daily_prices'
-        )
+        CREATE TABLE IF NOT EXISTS daily_prices (
+            id SERIAL PRIMARY KEY,
+            station_id VARCHAR(50) NOT NULL,
+            date DATE NOT NULL,
+            e5 NUMERIC(5,3),
+            e10 NUMERIC(5,3),
+            diesel NUMERIC(5,3),
+            e5_high NUMERIC(5,3),
+            e10_high NUMERIC(5,3),
+            diesel_high NUMERIC(5,3),
+            UNIQUE (station_id, date)
+        );
     """)
-    exists = cur.fetchone()[0]
-
-    if not exists:
-        cur.execute("""
-            CREATE TABLE daily_prices (
-                id SERIAL PRIMARY KEY,
-                station_id VARCHAR(50) NOT NULL,
-                date DATE NOT NULL,
-                e5 NUMERIC(5,3),
-                e10 NUMERIC(5,3),
-                diesel NUMERIC(5,3),
-                UNIQUE (station_id, date)
-            );
-        """)
-        conn.commit()
-        print("Tabelle daily_prices neu erstellt.")
-
-        # Tabelle direkt mit Testwerten für die letzten MAX_DAYS füllen
-        today = date.today()
-        for i in range(MAX_DAYS-1):
-            d = today - timedelta(days=MAX_DAYS - i)
-            cur.execute("""
-                INSERT INTO daily_prices (station_id, date, e5, e10, diesel)
-                VALUES (%s, %s, %s, %s, %s)
-            """, (
-                STATION_ID,
-                d,
-                round(random.uniform(1.50, 1.70), 3),
-                round(random.uniform(1.50, 1.70), 3),
-                round(random.uniform(1.40, 1.60), 3)
-            ))
-        conn.commit()
-        print(f"Tabelle mit {MAX_DAYS} Testeinträgen geseedet.")
-    else:
-        print("Tabelle existiert bereits.")
-
+    conn.commit()
     cur.close()
     conn.close()
+    print("Tabelle 'daily_prices' existiert oder wurde erstellt.")
 
 
 def delete_old_entries():
@@ -82,12 +66,13 @@ def delete_old_entries():
     conn.commit()
     cur.close()
     conn.close()
-    print(f"Alte Einträge vor {cutoff} gelöscht: {len(deleted)} Einträge entfernt.")
+    if deleted:
+        print(f"Alte Einträge vor {cutoff} gelöscht: {len(deleted)} Einträge entfernt.")
 
 
 def fetch_petrol_prices():
     url = f"https://creativecommons.tankerkoenig.de/json/detail.php?id={STATION_ID}&apikey={API_KEY}"
-    resp = requests.get(url)
+    resp = requests.get(url, timeout=15)
     resp.raise_for_status()
     data = resp.json()
 
@@ -109,27 +94,30 @@ def save_prices_to_db(prices: dict):
     cur = conn.cursor()
     today = date.today()
 
-    cur.execute("""
-        INSERT INTO daily_prices (station_id, date, e5, e10, diesel)
-        VALUES (%s, %s, %s, %s, %s)
-        ON CONFLICT (station_id, date) DO UPDATE
-        SET e5 = EXCLUDED.e5,
-            e10 = EXCLUDED.e10,
-            diesel = EXCLUDED.diesel
-        RETURNING xmax
-    """, (
-        STATION_ID,
-        today,
-        prices.get("e5"),
-        prices.get("e10"),
-        prices.get("diesel")
-    ))
+    if is_after_noon():
+        # Nachmittagslauf: High-Spalten schreiben (Preis nach der 12-Uhr-Erhöhung)
+        cur.execute("""
+            INSERT INTO daily_prices (station_id, date, e5_high, e10_high, diesel_high)
+            VALUES (%s, %s, %s, %s, %s)
+            ON CONFLICT (station_id, date) DO UPDATE
+            SET e5_high = EXCLUDED.e5_high,
+                e10_high = EXCLUDED.e10_high,
+                diesel_high = EXCLUDED.diesel_high
+        """, (STATION_ID, today, prices.get("e5"), prices.get("e10"), prices.get("diesel")))
+        print(f"Eintrag für {today} (ab 12 Uhr / high): {prices}")
+    else:
+        # Vormittagslauf: Low-Spalten schreiben (Tagestief kurz vor 12)
+        cur.execute("""
+            INSERT INTO daily_prices (station_id, date, e5, e10, diesel)
+            VALUES (%s, %s, %s, %s, %s)
+            ON CONFLICT (station_id, date) DO UPDATE
+            SET e5 = EXCLUDED.e5,
+                e10 = EXCLUDED.e10,
+                diesel = EXCLUDED.diesel
+        """, (STATION_ID, today, prices.get("e5"), prices.get("e10"), prices.get("diesel")))
+        print(f"Eintrag für {today} (vor 12 Uhr / low): {prices}")
 
-    result = cur.fetchone()
-    action = "NEU erstellt" if result and result[0] == 0 else "aktualisiert"
-    print(f"Eintrag für {today} {action}: {prices}")
-
-    # Sicherstellen, dass max. MAX_DAYS Einträge in der Tabelle sind
+    # Max. MAX_DAYS Einträge behalten
     cur.execute("""
         DELETE FROM daily_prices
         WHERE id IN (
@@ -142,11 +130,7 @@ def save_prices_to_db(prices: dict):
     """, (STATION_ID, MAX_DAYS))
     deleted_extra = cur.fetchall()
     if deleted_extra:
-        print(f"Zusätzliche alte Einträge entfernt, um {MAX_DAYS}-Tage-Limit einzuhalten: {len(deleted_extra)} Einträge gelöscht.")
-
-    cur.execute("SELECT COUNT(*) FROM daily_prices WHERE station_id = %s", (STATION_ID,))
-    count = cur.fetchone()[0]
-    print(f"Aktuell in der Tabelle: {count} Einträge für diese Station (max {MAX_DAYS})")
+        print(f"{len(deleted_extra)} alte Einträge entfernt ({MAX_DAYS}-Tage-Limit).")
 
     conn.commit()
     cur.close()
