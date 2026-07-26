@@ -1,7 +1,7 @@
 from pathlib import Path
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from api.routers import energy, oil, petrol, btc, status, etfs
+from api.routers import oil, petrol, btc, status, etfs
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -22,10 +22,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Cache-Control für alle GET-Endpoints unter /v1/
+@app.middleware("http")
+async def add_cache_headers(request: Request, call_next):
+    response = await call_next(request)
+    if request.method == "GET" and request.url.path.startswith("/v1/"):
+        if request.url.path.startswith("/v1/status") or request.url.path == "/v1/petrol/current":
+            # Status und Live-Preis sollen nicht im Browser altern,
+            # das serverseitige Caching übernimmt die Entlastung
+            response.headers["Cache-Control"] = "no-cache"
+        else:
+            response.headers["Cache-Control"] = "public, max-age=3600"
+    return response
+
 api_version = "/v1"
 
 # API-Router
-app.include_router(energy.router, prefix=f"{api_version}/energy", tags=["Energy"])
 app.include_router(oil.router, prefix=f"{api_version}/oil", tags=["Oil"])
 app.include_router(petrol.router, prefix=f"{api_version}/petrol", tags=["Petrol"])
 app.include_router(btc.router, prefix=f"{api_version}/btc", tags=["Bitcoin"])
