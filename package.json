@@ -11,7 +11,8 @@
   },
   "scripts": {
       "build:css": "npx @tailwindcss/cli -i ./static/assets/css/input.css -o ./static/assets/css/output.css --minify --content './**/*.html'",
-      "build:js": "npx terser ./static/assets/js/main.js -o ./static/assets/js/main.min.js --compress --mangle",
+      "build:js": "npx terser ./static/assets/js/main.js -o ./static/assets/js/main.min.js --compress --mangle --source-map \"url='main.min.js.map'\"",
+      "build:vendor": "npx terser node_modules/apexcharts/dist/apexcharts.js -o static/assets/js/apexcharts.min.js --compress --mangle --source-map \"url='apexcharts.min.js.map'\"",
       "build:html": "node build-html.mjs",
       "dev": "npm run build:css && npm run build:js && npm run build:html"
   }

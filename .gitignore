@@ -15,4 +15,4 @@ static/assets/js/main.min.js
 *.lock
 .vscode
 .DS_Store
-__pycache__
+__pycache__static/assets/js/main.min.js.map
