@@ -2,6 +2,7 @@ import socket
 import time
 import requests
 from typing import Optional
+from concurrent.futures import ThreadPoolExecutor
 import os
 from dotenv import load_dotenv
 
@@ -35,6 +36,10 @@ SERVICES = {
     'pb-orphi': {'port': 25002, 'url': f"https://orphi.{DOMAIN}/health"},
     'pb-snacky': {'port': 25003, 'url': f"https://snacky.{DOMAIN}/health"},
 }
+
+# Cache für den Full-Status (in Sekunden)
+CACHE_TTL = 30
+_status_cache = {"ts": 0.0, "data": None}
 
 
 def check_tcp(host: str, port: Optional[int], timeout=2):
@@ -97,20 +102,40 @@ def group_services(results: dict, prefix: str, label_map: Optional[dict] = None)
     return group
 
 
+def _check_one(item):
+    """Führt HTTP- und TCP-Check für einen einzelnen Service aus."""
+    id, svc = item
+    headers = {"Authorization": f"Bearer {HA_TOKEN}"} if id == "homeassistant" else None
+    http_res = check_http(svc['url'], headers=headers, method="GET" if id == "homeassistant" else "HEAD")
+    # TCP-Check lokal: misst, ob der Dienst auf dem Server läuft
+    tcp_res = check_tcp("127.0.0.1", svc['port'])
+    return id, {
+        'http': http_res,
+        'tcp': tcp_res,
+        'status': evaluate_status(http_res, tcp_res),
+    }
+
+
 def get_service_status(service_name: Optional[str] = None):
-    results = {}
-    for id, svc in SERVICES.items():
-        if service_name and service_name != id and not (service_name.startswith("pb") and id.startswith("pb")):
-            continue
-        headers = {"Authorization": f"Bearer {HA_TOKEN}"} if id == "homeassistant" else None
-        http_res = check_http(svc['url'], headers=headers, method="GET" if id == "homeassistant" else "HEAD")
-        # TCP-Check lokal: misst, ob der Dienst auf dem Server läuft --
-        # unabhängig davon, ob der Port nach außen gebunden ist.
-        tcp_res = check_tcp("127.0.0.1", svc['port'])
-        results[id] = {
-            'http': http_res,
-            'tcp': tcp_res,
-            'status': evaluate_status(http_res, tcp_res),
-        }
+    now = time.time()
+
+    # Cache nur für den Full-Check (alle Services) nutzen
+    if service_name is None and _status_cache["data"] is not None and now - _status_cache["ts"] < CACHE_TTL:
+        return _status_cache["data"]
+
+    items = [
+        (id, svc) for id, svc in SERVICES.items()
+        if not service_name
+        or service_name == id
+        or (service_name.startswith("pb") and id.startswith("pb"))
+    ]
+
+    # Checks parallel ausführen
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        results = dict(ex.map(_check_one, items))
+
+    if service_name is None:
+        _status_cache["ts"] = now
+        _status_cache["data"] = results
 
     return results
