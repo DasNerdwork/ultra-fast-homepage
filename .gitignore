@@ -5,9 +5,13 @@ vendor
 # Environment file (secrets)
 .env
 
+# index.html cuz generated from .template.html
+static/index.html
+
 # Tailwind output & minified JS
 static/assets/css/output.css
 static/assets/js/main.min.js
+static/assets/js/main.min.js.map
 
 # Optional logfiles, caches & os-specifics
 *.log
@@ -16,4 +20,3 @@ static/assets/js/main.min.js
 .vscode
 .DS_Store
 __pycache__/
-static/assets/js/main.min.js.map
