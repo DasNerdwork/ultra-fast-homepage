@@ -1,7 +1,7 @@
 import os
 import requests
 import psycopg2
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -53,14 +53,14 @@ def fetch_btc_prices():
     """Holt die letzten MAX_DAYS historischen Preise + aktuellen Preis"""
     url = "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart"
     params = {"vs_currency": "eur", "days": MAX_DAYS, "interval": "daily"}
-    resp = requests.get(url, params=params)
+    resp = requests.get(url, params=params, timeout=15)
     resp.raise_for_status()
     data = resp.json()
 
     # DataFrame ähnlich wie petrol_fetch
     prices = []
     for ts, price in data.get("prices", []):
-        dt = date.fromtimestamp(ts // 1000)
+        dt = datetime.fromtimestamp(ts / 1000, tz=timezone.utc).date()
         prices.append({"date": dt, "price_eur": round(price, 2)})
 
     # Sicherstellen, dass heutiger Preis aktuell ist
@@ -68,7 +68,7 @@ def fetch_btc_prices():
     if not any(p["date"] == today for p in prices):
         # aktueller Preis
         url_current = "https://api.coingecko.com/api/v3/simple/price"
-        resp_current = requests.get(url_current, params={"ids": "bitcoin", "vs_currencies": "eur"})
+        resp_current = requests.get(url_current, params={"ids": "bitcoin", "vs_currencies": "eur"}, timeout=15)
         resp_current.raise_for_status()
         current_price = resp_current.json()["bitcoin"]["eur"]
         prices.append({"date": today, "price_eur": round(current_price, 2)})

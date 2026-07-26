@@ -59,7 +59,7 @@ def fetch_heizoel_prices(days: int = MAX_DAYS):
     }
 
     print(f"📡 Lade Heizölpreise von {min_date} bis {max_date} ...")
-    resp = requests.get(url, headers=headers, timeout=10)
+    resp = requests.get(url, headers=headers, timeout=15)
     resp.raise_for_status()
     data = resp.json()
     values = data.get("Values", [])

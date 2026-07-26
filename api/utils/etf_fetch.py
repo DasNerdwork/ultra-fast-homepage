@@ -61,6 +61,11 @@ def fetch_etf_prices(ticker):
 
     etf = yf.Ticker(ticker)
     data = etf.history(start=start_date, end=end_date)
+
+    if data.empty or 'Close' not in data.columns:
+        print(f"⚠️ Keine Daten von yfinance für {ticker} erhalten, überspringe.")
+        return []
+
     df = data[['Close']].reset_index()
     df.rename(columns={'Date': 'date', 'Close': 'price_eur'}, inplace=True)
     df['date'] = df['date'].dt.date
@@ -70,7 +75,11 @@ def fetch_etf_prices(ticker):
     all_dates = pd.date_range(start=start_date, end=end_date).date
     df_all = pd.DataFrame({'date': all_dates})
     df_merged = df_all.merge(df, on='date', how='left')
-    df_merged['price_eur'] = df_merged['price_eur'].ffill()
+    df_merged['price_eur'] = df_merged['price_eur'].ffill().bfill()
+
+    # NaN-Zeilen dürfen NIE in die DB (Postgres NUMERIC akzeptiert NaN,
+    # kaputtes JSON in der API wäre die Folge)
+    df_merged = df_merged.dropna(subset=['price_eur'])
 
     return df_merged.to_dict('records')
 
@@ -102,8 +111,14 @@ def save_prices_to_db(table_name, prices):
 if __name__ == "__main__":
     for table_name, ticker in ETFS.items():
         print(f"\nVerarbeite {table_name} ({ticker}) …")
-        create_table_if_not_exists(table_name)
-        delete_old_entries(table_name)
-        prices = fetch_etf_prices(ticker)
-        save_prices_to_db(table_name, prices)
-        print(f"{len(prices)} Einträge gespeichert in {table_name}")
+        try:
+            create_table_if_not_exists(table_name)
+            delete_old_entries(table_name)
+            prices = fetch_etf_prices(ticker)
+            if not prices:
+                print(f"Keine Preise für {ticker}, Tabelle bleibt unverändert.")
+                continue
+            save_prices_to_db(table_name, prices)
+            print(f"{len(prices)} Einträge gespeichert in {table_name}")
+        except Exception as e:
+            print(f"❌ Fehler bei {table_name} ({ticker}): {e}")
