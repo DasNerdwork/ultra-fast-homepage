@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="DasNerdwork, One-Pager, TailwindCSS, Fast, Lightweight, No Framework, API, Live Status, Performance, Ultra Fast" />
+  <meta name="description" content="One-Pager mit maximaler Geschwindigkeit & minimalen Ladezeiten 🚀 Ohne Framework mit Preis API & Live Status. Jetzt Performance erleben!" />
+  <meta property="og:site_name" content="DasNerdwork.net">
+  <meta property="og:title" content="DasNerdwork.net | Schnell & Minimal">
+  <title>DasNerdwork.net | Schnell & Minimal</title>
+  <link rel="preconnect" href="https://api.dasnerdwork.net" crossorigin>
+  <link rel="preload" as="fetch" href="https://api.dasnerdwork.net/v1/status" crossorigin>
+  <link rel="preload" as="fetch" href="https://api.dasnerdwork.net/v1/petrol/current" crossorigin>
+  <link rel="preload" as="fetch" href="https://api.dasnerdwork.net/v1/oil?last=30" crossorigin>
+  <link rel="preload" as="fetch" href="https://api.dasnerdwork.net/v1/petrol/e5?last=30" crossorigin>
+  <link rel="preload" as="fetch" href="https://api.dasnerdwork.net/v1/btc?last=30" crossorigin>
+  <link rel="preload" as="fetch" href="https://api.dasnerdwork.net/v1/etfs/spdr?last=90" crossorigin>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/dark-32.png">
+  <style>/* INLINE_CSS */</style>
+  <script src="./assets/js/apexcharts.min.js" defer></script>
+  <script src="./assets/js/flowbite.min.js" defer></script>
+  <script type="module" src="./assets/js/main.min.js"></script>
+</head>
+<body class="bg-base text-text dark:bg-base dark:text-text antialiased">
+  <header class="sticky top-0 z-10 bg-[var(--color-card)] border-b border-gray-200/70 dark:border-gray-700/70">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <img id="header-favicon" class="h-6 w-6 rounded" src="assets/img/favicon/dark-64.png" alt="Favicon">
+        <span class="font-semibold tracking-tight">DasNerdwork.net</span>
+      </div>
+      <nav class="hidden sm:flex items-center gap-6 text-sm">
+        <a href="https://github.com/DasNerdwork/ultra-fast-homepage" class="hover:underline">GitHub</a>
+        <a href="https://api.dasnerdwork.net/docs" class="hover:underline">API</a>
+        <a href="https://docs.google.com/spreadsheets/d/1bzrmwYuUhLE7xxnMK2M2KUUs5ypdyJA0LoonLEqkrFs/edit?usp=sharing" class="hover:underline">WF Stats</a>
+        <a href="https://voidwatch.dasnerdwork.net" class="hover:underline">VoidWatcher</a>
+        <a href="https://clashscout.com" class="hover:underline">ClashScout</a>
+        <a href="https://github-repo-browsing.netlify.app" class="hover:underline">RepoBrowser</a>
+        <button
+          id="theme-toggle"
+          class="ml-4 p-2 rounded-full hover:bg-[var(--color-base)] transition"
+          title="Toggle Dark/Light">
+          <svg xmlns="http://www.w3.org/2000/svg" class="text-[var(--color-text)]/90" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="transition-colors duration-300 ease-in-out">
+    <!-- Hero -->
+    <section class="relative isolate overflow-hidden bg-base mb-8">
+      <div class="mx-auto max-w-6xl sm:!pt-16 sm:!pb-8 px-4 pt-8 pb-4">
+        <div class="grid md:grid-cols-2 items-center gap-10">
+          <div class="sm:!text-left text-center">
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">Ein maximal schneller One-Pager, <span class="text-primary dark:text-[#2281c8]">ohne Framework</span>.</h1>
+            <p class="mt-4 text-text/70 dark:text-text/60 max-w-prose">Live-Status der DasNerdwork.net Server & APIs, ultraschnelles First Paint, minimaler JS-Overhead, schnellstmöglicher Side-Load.</p>
+            <div class="mt-6 flex gap-3 sm:!justify-start justify-center">
+              <a href="https://github.com/DasNerdwork/ultra-fast-homepage" class="inline-flex items-center rounded-2xl bg-primary px-4 py-2 text-white font-medium shadow-sm hover:bg-primary/80 transition">GitHub Code</a>
+              <a href="https://api.dasnerdwork.net/docs" class="font-semibold inline-flex items-center rounded-2xl border-2 px-4 py-2 border-text/30 dark:border-text/50 hover:bg-base/20 dark:hover:bg-base/80">API Dokumentation</a>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Skeleton Cards for visual interest -->
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div id="oil-header" class="flex flex-col max-w-[67%]">
+                  <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">Heizöl (pro 100 L)</p>
+                </div>
+                <div id="oil-change"
+                  class="flex items-center justify-end sm:justify-center p-0 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  --%
+                  <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="oil-chart" class="h-[75px]"></div>
+              <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
+                <div class="flex justify-between items-center flex-col pt-3 sm:pt-5 sm:flex-row">
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="dropdownButtonOil"
+                      data-dropdown-toggle="lastDaysdropdown-oil"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Last 30 days</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="lastDaysdropdown-oil" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonOil">
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 7 days</a></li>
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 30 days</a></li=>
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 90 days</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Cards for visual interest -->
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div id="etf-header" class="flex flex-col max-w-[67%]">
+                  <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">SPDR MSCI World</p>
+                </div>
+                <div id="etf-change"
+                  class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  --%
+                  <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="etf-chart" class="h-[75px]"></div>
+              <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
+                <div class="flex justify-between items-center flex-col pt-3 sm:pt-5 sm:flex-row">
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="dropdownButtonEtf"
+                      data-dropdown-toggle="lastDaysdropdown-etf"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Last 90 days</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="lastDaysdropdown-etf" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonEtf">
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 7 days</a></li>
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 30 days</a></li=>
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 90 days</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="choiceDropdownButtonEtf"
+                      data-dropdown-toggle="choiceDropdown-etf"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">SPPW.DE</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="choiceDropdown-etf" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="choiceDropdownButtonEtf">
+                        <li><a href="#" data-path="SPPW.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">SPDR MSCI World</a></li>
+                        <li><a href="#" data-path="SMH.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">VanEck Semiconductor</a></li=>
+                        <li><a href="#" data-path="XDWD.DE" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Xtrackers MSCI World</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Cards for visual interest -->
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div id="petrol-header" class="flex flex-col max-w-[67%]">
+                  <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">Treibstoff (pro L)</p>
+                </div>
+                <div id="petrol-change"
+                  class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  --%
+                  <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="petrol-chart" class="h-[75px]"></div>
+              <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
+                <div class="flex justify-between items-center flex-col pt-3 sm:pt-5 sm:flex-row">
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="dropdownButtonPetrol"
+                      data-dropdown-toggle="lastDaysdropdown-petrol"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Last 30 days</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="lastDaysdropdown-petrol" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonPetrol">
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 7 days</a></li>
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 30 days</a></li=>
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 90 days</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="choiceDropdownButtonPetrol"
+                      data-dropdown-toggle="choiceDropdown-petrol"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Super 95</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="choiceDropdown-petrol" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="choiceDropdownButtonPetrol">
+                        <li><a href="#" data-path="e5" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Super 95</a></li>
+                        <li><a href="#" data-path="e10" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Super E10</a></li=>
+                        <li><a href="#" data-path="diesel" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Diesel</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+              <div class="flex flex-col sm:flex-row sm:justify-between">
+                <div id="bitcoin-header" class="flex flex-col max-w-[67%]">
+                  <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
+                  <p class="text-base font-normal text-text/60 dark:text-text/40 truncate">Bitcoin (EUR)</p>
+                </div>
+                <div id="bitcoin-change"
+                  class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-500 dark:text-green-500 text-center">
+                  --%
+                  <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="bitcoin-chart" class="h-[75px]"></div>
+              <div class="grid grid-cols-1 items-center border-text/20 border-t dark:border-text/50 justify-between">
+                <div class="flex justify-between items-center flex-col pt-3 sm:pt-5 sm:flex-row">
+                  <div class="relative py-1 pl-2 rounded-full hover:bg-[var(--color-base)] transition">
+                    <!-- Button -->
+                    <button
+                      id="dropdownButtonBitcoin"
+                      data-dropdown-toggle="lastDaysdropdown-bitcoin"
+                      data-dropdown-placement="bottom"
+                      class="text-sm font-medium text-text/60 dark:text-text/40 hover:text-text text-center inline-flex items-center dark:hover:text-text"
+                      type="button">
+                      <span class="dropdown-text">Last 30 days</span>
+                      <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                    <div id="lastDaysdropdown-bitcoin" class="z-10 hidden border bg-card divide-y divide-text/20 rounded-lg shadow-sm w-44 dark:bg-card">
+                      <ul class="py-2 text-sm text-text/70 dark:text-text/40" aria-labelledby="dropdownButtonBitcoin">
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 7 days</a></li>
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 30 days</a></li=>
+                        <li><a href="#" class="block px-4 py-2 dark:hover:bg-[#1C64F2] hover:bg-[#cb9150]">Last 90 days</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status Grid -->
+    <section id="status" class="mx-auto max-w-6xl px-4 py-6 bg-base mt-8">
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Live Server & API Status</h2>
+      <p class="mt-2 text-sm text-text/70 dark:text-text/40">Laufende Überwachung aller Dienste - Online- und Ausfallstatus in Echtzeit.</p>
+
+      <div id="status-grid" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- API Raw Data -->
+    <section id="apis" class="mx-auto max-w-6xl px-4 pb-16 bg-base hidden">
+      <details class="rounded-2xl border border-text/20 dark:border-text/50 open:shadow-sm">
+        <summary class="cursor-pointer select-none px-4 py-3 font-medium">Rohdaten ansehen (Debug)</summary>
+        <pre id="raw" class="overflow-x-auto p-4 text-xs text-text/70 dark:text-text/40"></pre>
+      </details>
+    </section>
+  </main>
+
+  <footer class="w-full py-2 text-center text-sm">
+    <span>
+      &copy; <span id="year"></span> DasNerdwork.net |
+      <a href="/impressum"
+        class="font-semibold hover:text-black/80 dark:hover:text-white/80 transition-colors">
+        Impressum
+      </a>
+      &amp;
+      <a href="/datenschutz"
+        class="font-semibold hover:text-black/80 dark:hover:text-white/80 transition-colors">
+        Datenschutz
+      </a>
+    </span>
+  </footer>
+</body>
+</html>

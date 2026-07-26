@@ -1,3 +1,8 @@
+const flowbiteCss = document.createElement('link');
+flowbiteCss.rel = 'stylesheet';
+flowbiteCss.href = './assets/css/flowbite.min.css';
+document.head.appendChild(flowbiteCss);
+
 const API_BASE = 'https://api.dasnerdwork.net/v1';
 const grid = document.getElementById('status-grid');
 const raw = document.getElementById('raw');
@@ -490,55 +495,57 @@ try {
 }
 }
 
-// Hilfsfunktion: alle Charts neu rendern
 function refreshAllCharts() {
-    // Heizöl
-    renderApiChart({
-        apiPath: `${API_BASE}/oil`,
-        valueKey: "price_eur",
-        chartTitle: "Heizöl (pro 100 L)",
-        headerSelector: "#oil-header",
-        changeSelector: "#oil-change",
-        chartSelector: "#oil-chart",
-        last: graphSettings.oil.lastDays,
-    });
+    const charts = [
+        // Heizöl
+        () => renderApiChart({
+            apiPath: `${API_BASE}/oil`,
+            valueKey: "price_eur",
+            chartTitle: "Heizöl (pro 100 L)",
+            headerSelector: "#oil-header",
+            changeSelector: "#oil-change",
+            chartSelector: "#oil-chart",
+            last: graphSettings.oil.lastDays,
+        }),
 
-    // ETFS
-    renderApiChart({
-        apiPath: `${API_BASE}/etfs/${etfApiMap[graphSettings.etf.path].api}`,  // dein FastAPI-Endpunkt
-        valueKey: "price_eur",
-        chartTitle: etfApiMap[graphSettings.etf.path].name,
-        headerSelector: "#etf-header",
-        changeSelector: "#etf-change",
-        chartSelector: "#etf-chart",
-        last: graphSettings.etf.lastDays,
-        formatValue: (val) => formatEuro(val, 2)
-    });
+        // ETFs
+        () => renderApiChart({
+            apiPath: `${API_BASE}/etfs/${etfApiMap[graphSettings.etf.path].api}`,  // dein FastAPI-Endpunkt
+            valueKey: "price_eur",
+            chartTitle: etfApiMap[graphSettings.etf.path].name,
+            headerSelector: "#etf-header",
+            changeSelector: "#etf-change",
+            chartSelector: "#etf-chart",
+            last: graphSettings.etf.lastDays,
+            formatValue: (val) => formatEuro(val, 2)
+        }),
 
+        // Petrol, z.B. e5 (Header wird danach mit Live-Preis überschrieben)
+        () => renderApiChart({
+            apiPath: `${API_BASE}/petrol/${graphSettings.petrol.path}`,
+            valueKey: "price",
+            chartTitle: "Treibstoff (pro L)",
+            headerSelector: "#petrol-header",
+            changeSelector: "#petrol-change",
+            chartSelector: "#petrol-chart",
+            last: graphSettings.petrol.lastDays
+        }).then(updatePetrolHeader),
 
-    // Petrol, z.B. e5
-    renderApiChart({
-        apiPath: `${API_BASE}/petrol/${graphSettings.petrol.path}`,
-        valueKey: "price",
-        chartTitle: "Treibstoff (pro L)",
-        headerSelector: "#petrol-header",
-        changeSelector: "#petrol-change",
-        chartSelector: "#petrol-chart",
-        last: graphSettings.petrol.lastDays
-    }).then(updatePetrolHeader);
+        // Bitcoin
+        () => renderApiChart({
+            apiPath: `${API_BASE}/btc`,
+            valueKey: 'price_eur', // wir wandeln die API um
+            chartTitle: 'Bitcoin (EUR)',
+            headerSelector: '#bitcoin-header',
+            changeSelector: '#bitcoin-change',
+            chartSelector: '#bitcoin-chart',
+            last: graphSettings.bitcoin.lastDays,
+            formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
+            colorUpDown: true
+        })
+    ];
 
-    // Bitcoin-Chart
-    renderApiChart({
-        apiPath: `${API_BASE}/btc`,
-        valueKey: 'price_eur', // wir wandeln die API um
-        chartTitle: 'Bitcoin (EUR)',
-        headerSelector: '#bitcoin-header',
-        changeSelector: '#bitcoin-change',
-        chartSelector: '#bitcoin-chart',
-        last: graphSettings.bitcoin.lastDays,
-        formatValue: (val) => formatEuro(val, 0), // Funktion ohne Nachkommastellen
-        colorUpDown: true
-    });
+    charts.forEach((fn, i) => setTimeout(fn, i * 120));
 }
 refreshAllCharts();
 
@@ -650,15 +657,18 @@ const updateFavicon = () => {
     document.head.appendChild(link);
     }
 
-    const src = isDark
+    const src32 = isDark
     ? 'assets/img/favicon/dark-32.png'
     : 'assets/img/favicon/light-32.png';
+    const src64 = isDark
+    ? 'assets/img/favicon/dark-64.png'
+    : 'assets/img/favicon/light-64.png';
 
     // Head-Favicon
-    link.href = src;
+    link.href = src32;
 
     // Header-Favicon
-    if (headerFavicon) headerFavicon.src = src;
+    if (headerFavicon) headerFavicon.src = src64;
 };
 
 const updateUI = () => {
