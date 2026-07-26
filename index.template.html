@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,6 +8,7 @@
   <meta property="og:site_name" content="DasNerdwork.net">
   <meta property="og:title" content="DasNerdwork.net | Schnell & Minimal">
   <title>DasNerdwork.net | Schnell & Minimal</title>
+  <script>if(localStorage.getItem('theme')==='light')document.documentElement.classList.remove('dark')</script>
   <link rel="preconnect" href="https://api.dasnerdwork.net" crossorigin>
   <link rel="preload" as="fetch" href="https://api.dasnerdwork.net/v1/status" crossorigin>
   <link rel="preload" as="fetch" href="https://api.dasnerdwork.net/v1/petrol/current" crossorigin>
@@ -58,9 +59,9 @@
               <a href="https://api.dasnerdwork.net/docs" class="font-semibold inline-flex items-center rounded-2xl border-2 px-4 py-2 border-text/30 dark:border-text/50 hover:bg-base/20 dark:hover:bg-base/80">API Dokumentation</a>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-2 gap-4 md:min-h-[432px]">
             <!-- Skeleton Cards for visual interest -->
-            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4 sm:h-[208px]">
               <div class="flex flex-col sm:flex-row sm:justify-between">
                 <div id="oil-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
@@ -103,7 +104,7 @@
               </div>
             </div>
             <!-- Cards for visual interest -->
-            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4 sm:h-[208px]">
               <div class="flex flex-col sm:flex-row sm:justify-between">
                 <div id="etf-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
@@ -168,7 +169,7 @@
               </div>
             </div>
             <!-- Cards for visual interest -->
-            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4 sm:h-[208px]">
               <div class="flex flex-col sm:flex-row sm:justify-between">
                 <div id="petrol-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>
@@ -232,7 +233,7 @@
                 </div>
               </div>
             </div>
-            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4">
+            <div class="max-w-sm w-full bg-card rounded-lg shadow-sm dark:bg-card p-4 md:p-4 sm:h-[208px]">
               <div class="flex flex-col sm:flex-row sm:justify-between">
                 <div id="bitcoin-header" class="flex flex-col max-w-[67%]">
                   <span class="leading-none text-3xl font-bold text-text dark:text-text">--</span>

@@ -1,8 +1,3 @@
-const flowbiteCss = document.createElement('link');
-flowbiteCss.rel = 'stylesheet';
-flowbiteCss.href = './assets/css/flowbite.min.css';
-document.head.appendChild(flowbiteCss);
-
 const API_BASE = 'https://api.dasnerdwork.net/v1';
 const grid = document.getElementById('status-grid');
 const raw = document.getElementById('raw');

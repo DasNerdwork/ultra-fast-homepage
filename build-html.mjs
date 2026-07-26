@@ -1,10 +1,13 @@
-// Injiziert das gebaute Tailwind-CSS inline ins HTML, um den
-// render-blockierenden CSS-Request zu eliminieren (LCP)
+// Injiziert das gebaute Tailwind-CSS UND das Flowbite-CSS inline ins HTML.
+// Reihenfolge wichtig: output.css zuerst, flowbite.min.css danach —
+// identisch zur früheren <link>-Reihenfolge, damit die Cascade und
+// damit das finale Aussehen exakt gleich bleiben.
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const MARKER = '/* INLINE_CSS */';
 
-const css = readFileSync('./static/assets/css/output.css', 'utf8');
+const outputCss = readFileSync('./static/assets/css/output.css', 'utf8');
+const flowbiteCss = readFileSync('./static/assets/css/flowbite.min.css', 'utf8');
 const template = readFileSync('./index.template.html', 'utf8');
 
 if (!template.includes(MARKER)) {
@@ -12,9 +15,8 @@ if (!template.includes(MARKER)) {
     process.exit(1);
 }
 
-// Replacer-Funktion statt String, damit $-Zeichen im CSS
-// nicht als Replace-Pattern interpretiert werden
+const css = outputCss + '\n' + flowbiteCss;
 const html = template.replace(MARKER, () => css);
 
 writeFileSync('./static/index.html', html);
-console.log(`index.html gebaut, ${(css.length / 1024).toFixed(1)} KiB CSS inlined`);
+console.log(`index.html gebaut, ${(css.length / 1024).toFixed(1)} KiB CSS inlined (output + flowbite)`);
