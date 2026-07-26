@@ -111,7 +111,7 @@ document.querySelectorAll('[id^="lastDaysdropdown-"] a').forEach(link => {
                 changeSelector: "#petrol-change",
                 chartSelector: "#petrol-chart",
                 last: graphSettings.petrol.lastDays
-            });
+            }).then(updatePetrolHeader);
         } else if (dropdown.id.includes('bitcoin')) {
             graphSettings.bitcoin.lastDays = parseInt(selected.match(/\d+/)[0]);
             renderApiChart({
@@ -126,7 +126,6 @@ document.querySelectorAll('[id^="lastDaysdropdown-"] a').forEach(link => {
                 colorUpDown: true
             });
         }
-        saveSettings();
     });
 });
 
@@ -172,7 +171,7 @@ document.querySelectorAll('[id^="choiceDropdown-"] a').forEach(link => {
                 changeSelector: "#petrol-change",
                 chartSelector: "#petrol-chart",
                 last: graphSettings.petrol.lastDays
-            });
+            }).then(updatePetrolHeader);
         } else if (dropdown.id.includes('bitcoin')) {
             renderApiChart({
                 apiPath: `${API_BASE}/btc`,
@@ -186,7 +185,6 @@ document.querySelectorAll('[id^="choiceDropdown-"] a').forEach(link => {
                 colorUpDown: true
             });
         }
-        saveSettings();
     });
 });
 
@@ -199,11 +197,6 @@ function badgeStatus(status) {
         default: return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-800">● Unknown</span>';
         }
 }
-
-// case 'green': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-green-800 bg-green-900/40 dark:text-green-200">● OK</span>';
-// case 'yellow': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200">● Warning</span>';
-// case 'red': return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full text-red-800 bg-red-900/40 dark:text-red-200">● Offline</span>';
-// default: return '<span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 text-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-200">● Unknown</span>';
 
 // Karte für einen Service rendern
 function renderCard(name, id, data, url = null) {
@@ -341,6 +334,33 @@ return new Intl.NumberFormat("de-DE", {
     maximumFractionDigits: decimals
 }).format(value);
 };
+
+// ----------------------
+// Live-Preis (Tankerkönig via /petrol/current)
+// ----------------------
+// Eine Response enthält alle drei Sorten, daher einmal fetchen,
+// cachen und beim Sortenwechsel ohne neuen Request umschalten
+let currentPetrolData = null;
+
+async function loadCurrentPetrolPrice() {
+    try {
+        const res = await fetch(`${API_BASE}/petrol/current`);
+        if (!res.ok) return;
+        currentPetrolData = await res.json();
+        updatePetrolHeader();
+    } catch (e) {
+        // Fallback: der letzte Chart-Datenpunkt bleibt einfach stehen
+        console.warn("Live-Preis konnte nicht geladen werden", e);
+    }
+}
+
+function updatePetrolHeader() {
+    if (!currentPetrolData) return;
+    const price = currentPetrolData[graphSettings.petrol.path];
+    if (price == null) return;
+    const headerEl = document.querySelector("#petrol-header span");
+    if (headerEl) headerEl.textContent = formatEuro(price);
+}
 
 /**
  * Generischer Chart-Renderer für beliebige APIs
@@ -483,17 +503,6 @@ function refreshAllCharts() {
         last: graphSettings.oil.lastDays,
     });
 
-    // Energy
-    // renderApiChart({
-    // apiPath: `${API_BASE}/energy`,
-    // valueKey: "price_ct_per_kwh",
-    // chartTitle: "Strompreis",
-    // headerSelector: "#energy-header",
-    // changeSelector: "#energy-change",
-    // chartSelector: "#energy-chart",
-    // last: 30
-    // });
-
     // ETFS
     renderApiChart({
         apiPath: `${API_BASE}/etfs/${etfApiMap[graphSettings.etf.path].api}`,  // dein FastAPI-Endpunkt
@@ -516,7 +525,7 @@ function refreshAllCharts() {
         changeSelector: "#petrol-change",
         chartSelector: "#petrol-chart",
         last: graphSettings.petrol.lastDays
-    });
+    }).then(updatePetrolHeader);
 
     // Bitcoin-Chart
     renderApiChart({
@@ -532,6 +541,10 @@ function refreshAllCharts() {
     });
 }
 refreshAllCharts();
+
+// Live-Preis initial laden + alle 15 Min aktualisieren (passend zum Server-Cache-TTL)
+loadCurrentPetrolPrice();
+setInterval(loadCurrentPetrolPrice, 15 * 60 * 1000);
 
 function renderCardResult(svc, data) {
 const el = document.getElementById(`card-${svc.id}`);
