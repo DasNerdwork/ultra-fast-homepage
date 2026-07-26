@@ -1,0 +1,31 @@
+# DasNerdwork.net
+
+> Personal homepage and self-hosted service hub of Florian Falk, a full-stack developer from northern Germany. The site is a deliberately framework-free, performance-optimized one-pager showing live price data (heating oil, petrol, Bitcoin, ETFs) and real-time status of all self-hosted services, backed by a public FastAPI REST API.
+
+Key facts:
+
+- The frontend uses no JavaScript framework, only TailwindCSS, Flowbite components and ApexCharts, optimized for a perfect Lighthouse score.
+- All price and status data comes from the public REST API at https://api.dasnerdwork.net (FastAPI + PostgreSQL, JSON responses).
+- Petrol prices follow the German "12-Uhr-Regel" (since April 2026 stations may raise prices only once daily at noon): the API stores a pre-noon low and post-noon high per day and offers a live endpoint.
+- All services run self-hosted on a Debian server administered by the site owner.
+
+## API
+
+- [API documentation (Swagger UI)](https://api.dasnerdwork.net/docs): Interactive documentation of all endpoints
+- [Live petrol prices](https://api.dasnerdwork.net/v1/petrol/current): Current E5/E10/diesel prices, 15 min server cache
+- [Heating oil history](https://api.dasnerdwork.net/v1/oil?last=30): Daily heating oil prices per 100 L, up to 90 days
+- [Bitcoin history](https://api.dasnerdwork.net/v1/btc?last=30): Daily BTC price in EUR, up to 90 days
+- [ETF history](https://api.dasnerdwork.net/v1/etfs/spdr?last=90): Daily prices for SPDR MSCI World; also /vaneck and /xtrackers
+- [Service status](https://api.dasnerdwork.net/v1/status): Live health checks (HTTP + TCP) of all hosted services
+
+## Projects
+
+- [Frontend source code](https://github.com/DasNerdwork/ultra-fast-homepage): GitHub repository of this one-pager
+- [VoidWatcher](https://voidwatch.dasnerdwork.net): Warframe market tracker (FastAPI, PostgreSQL, React/TypeScript)
+- [ClashScout](https://clashscout.com): League of Legends Clash analysis platform (PHP, MongoDB, WebSockets)
+- [Repo Browser](https://github-repo-browsing.netlify.app): GitHub repository browsing tool
+
+## Optional
+
+- [Legal notice / Impressum](https://dasnerdwork.net/impressum): Legal information (German, §5 TMG)
+- [Privacy policy / Datenschutz](https://dasnerdwork.net/datenschutz): Privacy policy (German)
