@@ -290,21 +290,17 @@ async function loadStatus() {
 
         sortedServices.forEach((svc, i) => {
             const data = json[svc.id] || {};
-            const el = document.getElementById(`card-${svc.id}`);
-
-            if (!el) return; // Sicherheitscheck
+            // Statt Karten zu verschieben (insertBefore = Layout Shift = CLS),
+            // wird der i-te sortierte Service in den i-ten Grid-Slot gerendert.
+            const slot = grid.children[i];
+            if (!slot) return;
 
             setTimeout(() => {
-                // Inhalt überschreiben
-                el.innerHTML = renderCard(svc.name, svc.id, data, svc.url).innerHTML;
-                el.classList.remove('animate-pulse');
-
-                // Position im Grid korrekt halten
-                const nextSibling = grid.children[i];
-                if (nextSibling !== el) {
-                    grid.insertBefore(el, nextSibling);
-                }
-            }, i * 25); // Delay kaskadierend
+                slot.id = `card-${svc.id}`;
+                slot.className = 'min-h-[84px] rounded-2xl p-4 transition-all duration-300'
+                    + (svc.url ? ' hover:scale-105' : ' cursor-not-allowed');
+                slot.innerHTML = renderCard(svc.name, svc.id, data, svc.url).innerHTML;
+            }, i * 25);
         });
     } catch (err) {
         console.error("Fehler beim Laden des Status:", err);
