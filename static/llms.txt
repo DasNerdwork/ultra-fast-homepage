@@ -21,7 +21,7 @@ Key facts:
 ## Projects
 
 - [Frontend source code](https://github.com/DasNerdwork/ultra-fast-homepage): GitHub repository of this one-pager
-- [VoidWatcher](https://voidwatch.dasnerdwork.net): Warframe market tracker (FastAPI, PostgreSQL, React/TypeScript)
+- [Voidticker](https://voidticker.com): Warframe market tracker (FastAPI, PostgreSQL, React/TypeScript)
 - [ClashScout](https://clashscout.com): League of Legends Clash analysis platform (PHP, MongoDB, WebSockets)
 - [Repo Browser](https://github-repo-browsing.netlify.app): GitHub repository browsing tool
 

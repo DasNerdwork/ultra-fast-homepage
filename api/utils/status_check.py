@@ -14,14 +14,14 @@ HA_TOKEN = os.getenv("HA_TOKEN")
 # Services definieren
 # port  -> TCP-Check gegen localhost ("läuft der Prozess?")
 # url   -> HTTP-Check über die Domain/nginx ("funktioniert der Weg von außen?")
-# Hinweis: Dienste, die auf 127.0.0.1 gebunden sind (musikbot, voidwatch,
+# Hinweis: Dienste, die auf 127.0.0.1 gebunden sind (musikbot, voidticker,
 # pihole, netdata), sind von außen bewusst nicht mehr erreichbar. Der
 # TCP-Check läuft deshalb lokal, der HTTP-Check weiterhin über nginx.
 SERVICES = {
     'teamspeak': {'port': 30033, 'url': None},
     'musikbot': {'port': 8087, 'url': f"https://musik.{DOMAIN}/health"},
     'clashscout': {'port': None, 'url': "https://clashscout.com/health"},
-    'voidwatch': {'port': 8090, 'url': f"https://voidwatch.{DOMAIN}/health"},
+    'voidticker': {'port': None, 'url': f"https://voidticker/health"},
     'nextcloud': {'port': None, 'url': f"https://cloud.{DOMAIN}/health"},
     'unifi': {'port': 8443, 'url': f"https://unifi.{DOMAIN}/health"},
     'homeassistant': {'port': 8123, 'url': f"https://home.{DOMAIN}/health"},
