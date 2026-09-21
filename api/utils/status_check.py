@@ -21,7 +21,7 @@ SERVICES = {
     'teamspeak': {'port': 30033, 'url': None},
     'musikbot': {'port': 8087, 'url': f"https://musik.{DOMAIN}/health"},
     'clashscout': {'port': None, 'url': "https://clashscout.com/health"},
-    'voidticker': {'port': None, 'url': f"https://voidticker/health"},
+    'voidticker': {'port': None, 'url': "https://voidticker.com/health"},
     'nextcloud': {'port': None, 'url': f"https://cloud.{DOMAIN}/health"},
     'unifi': {'port': 8443, 'url': f"https://unifi.{DOMAIN}/health"},
     'homeassistant': {'port': 8123, 'url': f"https://home.{DOMAIN}/health"},
