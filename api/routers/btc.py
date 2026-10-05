@@ -12,7 +12,7 @@ class DailyBTCPrice(BaseModel):
 
 @router.get("", response_model=List[DailyBTCPrice], summary="Get BTC prices for the last X days")
 def get_daily_btc_prices(
-    last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", example=7)
+    last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", examples=[7])
 ):
     query = "SELECT date, price_eur FROM btc_prices_daily"
     params = []

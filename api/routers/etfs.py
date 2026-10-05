@@ -43,13 +43,13 @@ def fetch_prices(etf: str, last: Optional[int]):
 # ------------------------------
 
 @router.get("/spdr", response_model=List[DailyETFPrice], summary="SPDR MSCI World (Acc) Preise")
-def get_spdr_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", example=7)):
+def get_spdr_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", examples=[7])):
     return fetch_prices("spdr", last)
 
 @router.get("/vaneck", response_model=List[DailyETFPrice], summary="VanEck Semiconductor (Acc) Preise")
-def get_vaneck_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", example=7)):
+def get_vaneck_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", examples=[7])):
     return fetch_prices("vaneck", last)
 
 @router.get("/xtrackers", response_model=List[DailyETFPrice], summary="Xtrackers MSCI World (Acc) Preise")
-def get_xtrackers_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", example=7)):
+def get_xtrackers_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", examples=[7])):
     return fetch_prices("xtrackers", last)

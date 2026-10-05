@@ -100,13 +100,13 @@ def get_current_prices():
     return result
 
 @router.get("/e5", response_model=List[DailyPetrolPrice], summary="E5 Preise")
-def get_e5_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", example=7)):
+def get_e5_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", examples=[7])):
     return fetch_prices("e5", last)
 
 @router.get("/e10", response_model=List[DailyPetrolPrice], summary="E10 Preise")
-def get_e10_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", example=7)):
+def get_e10_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", examples=[7])):
     return fetch_prices("e10", last)
 
 @router.get("/diesel", response_model=List[DailyPetrolPrice], summary="Diesel Preise")
-def get_diesel_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", example=7)):
+def get_diesel_prices(last: Optional[int] = Query(None, ge=1, le=90, description="Letzte X Einträge", examples=[7])):
     return fetch_prices("diesel", last)

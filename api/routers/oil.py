@@ -17,7 +17,7 @@ def get_heizoel_prices(
         ge=1,
         le=90,
         description="Letzte X Einträge",
-        example=7
+        examples=[7]
     )
 ):
     query = "SELECT date, price_eur FROM heizoel_prices_daily"
